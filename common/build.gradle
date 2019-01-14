@@ -1,12 +1,15 @@
 apply plugin: 'kotlin-multiplatform'
+apply plugin: 'kotlinx-serialization'
+apply plugin: 'maven-publish'
 
-repositories {
-    mavenCentral()
-}
 group 'de.cknetsc'
 version '0.0.1'
 
-apply plugin: 'maven-publish'
+ext {
+    kotlinx_coroutines = '1.1.0'
+    kotlinx_serialization_runtime = '0.9.1'
+    ktor_version = '1.1.1'
+}
 
 kotlin {
     targets {
@@ -16,12 +19,15 @@ kotlin {
             compilations.main.outputKinds('FRAMEWORK')
         }
 
-        fromPreset(presets.jvm, 'android')
+        fromPreset(presets.jvm, 'jvm')
     }
     sourceSets {
         commonMain {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$kotlinx_coroutines"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlinx_serialization_runtime"
+                implementation "io.ktor:ktor-client-core:$ktor_version"
             }
         }
         commonTest {
@@ -30,19 +36,24 @@ kotlin {
                 implementation 'org.jetbrains.kotlin:kotlin-test-annotations-common'
             }
         }
-        androidMain {
+        jvmMain {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_runtime"
+                implementation "io.ktor:ktor-client-android:$ktor_version"
             }
         }
-        androidTest {
+        jvmTest {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-test'
                 implementation 'org.jetbrains.kotlin:kotlin-test-junit'
             }
         }
         iosMain {
-
+            dependencies {
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serialization_runtime"
+                implementation "io.ktor:ktor-client-ios:$ktor_version"
+            }
         }
         iosTest {
 

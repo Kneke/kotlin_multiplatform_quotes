@@ -9,20 +9,38 @@
 import UIKit
 import common
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, QuoteContractQuoteView {
+    
+    @IBOutlet weak var quoteLabel: UILabel!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
+    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var output: UILabel!
+    
+    var presenter: QuoteContractQuotePresenter!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 21))
-        label.center = CGPoint(x: 160, y: 285)
-        label.textAlignment = .center
-        label.font = label.font.withSize(25)
-        label.text = SampleKt.hello() + " " + String(Sample().checkMe())
-        view.addSubview(label)
+        presenter = QuotePresenterImpl(quoteView: self)
+        loadQuoteInUI()
     }
-
-
+    
+    @IBAction func onNextButtonClick(_ sender: Any) {
+        loadQuoteInUI()
+    }
+    
+    func loadQuoteInUI() {
+        loadingSpinner.startAnimating()
+        quoteLabel.text = ""
+        authorLabel.text = ""
+        presenter.showQuote()
+    }
+    
+    func setQuote(quote: Quote) {
+        quoteLabel.text = quote.quote
+        authorLabel.text = quote.author
+        loadingSpinner.stopAnimating()
+    }
 }
-
