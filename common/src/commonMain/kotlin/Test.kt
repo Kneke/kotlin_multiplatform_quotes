@@ -1,5 +1,5 @@
 import data.Quote
-import kotlinx.serialization.json.JSON
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.list
 import kotlin.random.Random
 
@@ -272,7 +272,7 @@ val quotes = """
 ]
 """.trimIndent()
 
-val quoteList : List<Quote> = JSON.parse(Quote.serializer().list, quotes)
+val quoteList : List<Quote> = Json.parse(Quote.serializer().list, quotes)
 
 fun getQuote() = quoteList[Random.nextInt(0, quoteList.size-1)]
 

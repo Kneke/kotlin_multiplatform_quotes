@@ -6,9 +6,9 @@ group 'de.cknetsc'
 version '0.0.1'
 
 ext {
-    kotlinx_coroutines = '1.1.0'
-    kotlinx_serialization_runtime = '0.9.1'
-    ktor_version = '1.1.1'
+    kotlinx_coroutines = '1.1.1'
+    kotlinx_serialization_runtime = '0.10.0'
+    ktor_version = '1.1.2'
 }
 
 kotlin {
@@ -25,9 +25,12 @@ kotlin {
         commonMain {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$kotlinx_coroutines"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlinx_serialization_runtime"
+
                 implementation "io.ktor:ktor-client-core:$ktor_version"
+                //implementation "io.ktor:ktor-client-logging:$ktor_version"
             }
         }
         commonTest {
@@ -39,8 +42,11 @@ kotlin {
         jvmMain {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_runtime"
-                implementation "io.ktor:ktor-client-android:$ktor_version"
+
+                implementation "io.ktor:ktor-client-android:$ktor_version" // Put this inside Android package when adding jvm backend support
+                // implementation "io.ktor:ktor-client-core-jvm:$ktor_version" // Activate this when we got Android package
             }
         }
         jvmTest {
@@ -52,6 +58,7 @@ kotlin {
         iosMain {
             dependencies {
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serialization_runtime"
+
                 implementation "io.ktor:ktor-client-ios:$ktor_version"
             }
         }

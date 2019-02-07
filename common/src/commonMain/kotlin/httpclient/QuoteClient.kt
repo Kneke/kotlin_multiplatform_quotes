@@ -5,7 +5,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.url
 import io.ktor.http.Url
-import kotlinx.serialization.json.JSON
+import kotlinx.serialization.json.Json
 
 class QuoteClient {
 
@@ -17,6 +17,6 @@ class QuoteClient {
         val result: String = client.get {
             url(this@QuoteClient.address.toString())
         }
-        return JSON.parse(Quote.serializer(), result)
+        return Json.parse(Quote.serializer(), result)
     }
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E004548B220C6421001E875D /* main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E004548A220C6421001E875D /* main.framework */; };
+		E004548C220C6421001E875D /* main.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E004548A220C6421001E875D /* main.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E0CA5FD321E72BCF0031B0BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CA5FD221E72BCF0031B0BB /* AppDelegate.swift */; };
 		E0CA5FD521E72BCF0031B0BB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CA5FD421E72BCF0031B0BB /* ViewController.swift */; };
 		E0CA5FD821E72BCF0031B0BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0CA5FD621E72BCF0031B0BB /* Main.storyboard */; };
@@ -14,8 +16,6 @@
 		E0CA5FDD21E72BD10031B0BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0CA5FDB21E72BD10031B0BB /* LaunchScreen.storyboard */; };
 		E0CA5FE821E72BD10031B0BB /* MultiIIOsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CA5FE721E72BD10031B0BB /* MultiIIOsTests.swift */; };
 		E0CA5FF321E72BD10031B0BB /* MultiIIOsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CA5FF221E72BD10031B0BB /* MultiIIOsUITests.swift */; };
-		E0CA600621E777FA0031B0BB /* common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0CA600521E777FA0031B0BB /* common.framework */; };
-		E0CA600721E777FA0031B0BB /* common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E0CA600521E777FA0031B0BB /* common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,13 +36,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E0CA600821E777FA0031B0BB /* Embed Frameworks */ = {
+		E004548D220C6421001E875D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E0CA600721E777FA0031B0BB /* common.framework in Embed Frameworks */,
+				E004548C220C6421001E875D /* main.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,6 +50,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E004548A220C6421001E875D /* main.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = main.framework; path = "../common/build/xcode-frameworks/main.framework"; sourceTree = "<group>"; };
 		E0CA5FCF21E72BCF0031B0BB /* MultiIIOs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiIIOs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0CA5FD221E72BCF0031B0BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E0CA5FD421E72BCF0031B0BB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,8 +64,6 @@
 		E0CA5FEE21E72BD10031B0BB /* MultiIIOsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiIIOsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0CA5FF221E72BD10031B0BB /* MultiIIOsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiIIOsUITests.swift; sourceTree = "<group>"; };
 		E0CA5FF421E72BD10031B0BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E0CA600021E72C910031B0BB /* common.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = common.framework; path = "../common/build/xcode-frameworks/common.framework"; sourceTree = "<group>"; };
-		E0CA600521E777FA0031B0BB /* common.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = common.framework; path = "../common/build/xcode-frameworks/common.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0CA600621E777FA0031B0BB /* common.framework in Frameworks */,
+				E004548B220C6421001E875D /* main.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,8 +95,7 @@
 		E0CA5FC621E72BCF0031B0BB = {
 			isa = PBXGroup;
 			children = (
-				E0CA600021E72C910031B0BB /* common.framework */,
-				E0CA600521E777FA0031B0BB /* common.framework */,
+				E004548A220C6421001E875D /* main.framework */,
 				E0CA5FD121E72BCF0031B0BB /* MultiIIOs */,
 				E0CA5FE621E72BD10031B0BB /* MultiIIOsTests */,
 				E0CA5FF121E72BD10031B0BB /* MultiIIOsUITests */,
@@ -157,7 +155,7 @@
 				E0CA5FCB21E72BCF0031B0BB /* Sources */,
 				E0CA5FCC21E72BCF0031B0BB /* Frameworks */,
 				E0CA5FCD21E72BCF0031B0BB /* Resources */,
-				E0CA600821E777FA0031B0BB /* Embed Frameworks */,
+				E004548D220C6421001E875D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
