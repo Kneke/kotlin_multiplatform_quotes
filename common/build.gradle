@@ -9,6 +9,8 @@ ext {
     kotlinx_coroutines = '1.1.1'
     kotlinx_serialization_runtime = '0.10.0'
     ktor_version = '1.1.2'
+    mockk_version = '1.9.kotlin12'
+    kluent_version = '1.47'
 }
 
 kotlin {
@@ -30,23 +32,31 @@ kotlin {
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlinx_serialization_runtime"
 
                 implementation "io.ktor:ktor-client-core:$ktor_version"
-                //implementation "io.ktor:ktor-client-logging:$ktor_version"
+                implementation "io.ktor:ktor-client-json:$ktor_version"
+                implementation "io.ktor:ktor-client-logging:$ktor_version"
             }
         }
         commonTest {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-test-common'
                 implementation 'org.jetbrains.kotlin:kotlin-test-annotations-common'
+
+                implementation "io.mockk:mockk:$mockk_version"
+                implementation "io.mockk:mockk-common:$mockk_version"
+                implementation "org.amshove.kluent:kluent:$kluent_version"
             }
         }
         jvmMain {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
 
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_runtime"
 
-                implementation "io.ktor:ktor-client-android:$ktor_version" // Put this inside Android package when adding jvm backend support
-                // implementation "io.ktor:ktor-client-core-jvm:$ktor_version" // Activate this when we got Android package
+                // implementation "io.ktor:ktor-client-core-jvm:$ktor_version" TODO Activate this when Android sourceSets is created
+                implementation "io.ktor:ktor-client-android:$ktor_version"
+                implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+                implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
             }
         }
         jvmTest {
@@ -57,9 +67,13 @@ kotlin {
         }
         iosMain {
             dependencies {
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$kotlinx_coroutines"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serialization_runtime"
 
                 implementation "io.ktor:ktor-client-ios:$ktor_version"
+                implementation "io.ktor:ktor-client-core-native:$ktor_version"
+                implementation "io.ktor:ktor-client-json-native:$ktor_version"
+                implementation "io.ktor:ktor-client-logging-native:$ktor_version"
             }
         }
         iosTest {

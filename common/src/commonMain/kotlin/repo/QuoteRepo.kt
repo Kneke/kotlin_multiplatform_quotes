@@ -1,8 +1,8 @@
 package repo
 
 import data.Quote
+import network.api.QuoteClient
 import dispatcher.backgroundDispatcher
-import httpclient.QuoteClient
 import kotlinx.coroutines.*
 
 interface QuoteRepo {

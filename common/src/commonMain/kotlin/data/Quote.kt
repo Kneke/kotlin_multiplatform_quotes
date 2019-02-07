@@ -1,6 +1,6 @@
 package data
 
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
 @Serializable
 data class Quote(
