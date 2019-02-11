@@ -2,20 +2,15 @@ package repo
 
 import api.QuoteApi
 import data.Quote
-import util.dispatcher.backgroundDispatcher
-import kotlinx.coroutines.*
 
 interface QuoteRepo {
-    fun getRandomQuote(callback: (Quote) -> Unit)
+    suspend fun getRandomQuote(): Quote
 }
 
 class QuoteRepoImpl(private val api: QuoteApi): QuoteRepo {
 
-     override fun getRandomQuote(callback: (Quote) -> Unit) {
-         GlobalScope.launch(backgroundDispatcher) {
-             val result = api.load()
-             callback(result)
-         }
+     override suspend fun getRandomQuote(): Quote {
+         return api.load()
     }
 }
 

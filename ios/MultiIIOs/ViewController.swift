@@ -45,4 +45,8 @@ class ViewController: UIViewController, QuoteContractQuoteView {
         authorLabel.text = quote.author
         loadingSpinner.stopAnimating()
     }
+    
+    func showError(error: KotlinThrowable) {
+        print(error)
+    }
 }

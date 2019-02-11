@@ -2,6 +2,7 @@ package de.cknetsc.multiapp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import data.Quote
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,9 +28,13 @@ class MainActivity : AppCompatActivity(), QuoteContract.QuoteView {
         presenter.showQuote()
     }
 
-    override fun setQuote(quote: Quote) = runOnUiThread {
+    override fun setQuote(quote: Quote) {
         quoteText.text = quote.quote
         authorText.text = quote.author
         loadingSpinner.visibility = View.GONE
+    }
+
+    override fun showError(error: Throwable) {
+        Log.d(this::class.simpleName, error.message)
     }
 }

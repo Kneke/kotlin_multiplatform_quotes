@@ -50,6 +50,7 @@ kotlin {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
 
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines" // TODO Swap this when Android sourceSets is created
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_runtime"
 

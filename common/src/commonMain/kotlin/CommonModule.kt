@@ -9,6 +9,8 @@ import presenter.QuoteContract
 import presenter.QuotePresenterImpl
 import repo.QuoteRepo
 import repo.QuoteRepoImpl
+import util.dispatcher.mainDispatcher
+import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.ThreadLocal
 
 @ThreadLocal // FIXME In nativ ktor throws exception without this
@@ -38,6 +40,6 @@ val quoteRepo: QuoteRepo by lazy {
 
 private var quotePresenter: QuoteContract.QuotePresenter? = null
 fun quotePresenter(quoteView: QuoteContract.QuoteView): QuoteContract.QuotePresenter {
-    if (quotePresenter == null) quotePresenter = QuotePresenterImpl(quoteView, quoteRepo)
+    if (quotePresenter == null) quotePresenter = QuotePresenterImpl(quoteView, quoteRepo, mainDispatcher)
     return quotePresenter!!
 }
