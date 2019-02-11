@@ -7,13 +7,13 @@ import io.ktor.client.response.HttpResponsePipeline
 import io.ktor.http.isSuccess
 import io.ktor.util.AttributeKey
 
-object QuoteApiInterceptor : HttpClientFeature<Unit, QuoteApiInterceptor> {
+object ResponseInterceptor : HttpClientFeature<Unit, ResponseInterceptor> {
 
-    override val key: AttributeKey<QuoteApiInterceptor> = AttributeKey("QuoteApiInterceptor")
+    override val key: AttributeKey<ResponseInterceptor> = AttributeKey("ResponseInterceptor")
 
-    override fun prepare(block: Unit.() -> Unit): QuoteApiInterceptor = this
+    override fun prepare(block: Unit.() -> Unit): ResponseInterceptor = this
 
-    override fun install(feature: QuoteApiInterceptor, scope: HttpClient) {
+    override fun install(feature: ResponseInterceptor, scope: HttpClient) {
         scope.responsePipeline.intercept(HttpResponsePipeline.Receive) {
             val response = subject.response as HttpResponse
 
