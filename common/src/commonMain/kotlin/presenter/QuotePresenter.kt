@@ -1,7 +1,7 @@
 package presenter
 
 import data.Quote
-import di.quoteRepo
+import repo.QuoteRepo
 
 interface QuoteContract {
     interface QuoteView {
@@ -12,9 +12,9 @@ interface QuoteContract {
     }
 }
 
-class QuotePresenterImpl(val quoteView: QuoteContract.QuoteView): QuoteContract.QuotePresenter {
-
-    var repo = quoteRepo
+class QuotePresenterImpl(
+    private val quoteView: QuoteContract.QuoteView,
+    private val repo: QuoteRepo): QuoteContract.QuotePresenter {
 
     override fun showQuote() {
         repo.getRandomQuote{

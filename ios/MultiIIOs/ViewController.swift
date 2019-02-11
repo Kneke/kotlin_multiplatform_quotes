@@ -23,7 +23,9 @@ class ViewController: UIViewController, QuoteContractQuoteView {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        presenter = QuotePresenterImpl(quoteView: self)
+        //presenter = QuotePresenterImpl(quoteView: self)
+        presenter = CommonModuleKt.quotePresenter(quoteView: self)
+        
         loadQuoteInUI()
     }
     

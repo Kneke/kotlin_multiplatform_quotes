@@ -1,4 +1,4 @@
-package network.intercept
+package api.intercept
 
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpClientFeature

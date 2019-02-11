@@ -6,11 +6,11 @@ import android.view.View
 import data.Quote
 import kotlinx.android.synthetic.main.activity_main.*
 import presenter.QuoteContract
-import presenter.QuotePresenterImpl
+import quotePresenter
 
 class MainActivity : AppCompatActivity(), QuoteContract.QuoteView {
 
-    val presenter = QuotePresenterImpl(this)
+    private val presenter = quotePresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
