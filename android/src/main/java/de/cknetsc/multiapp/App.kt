@@ -11,12 +11,4 @@ class App: Application() {
 
         loggingActive = true // Enable multiplatform logging
     }
-
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-    }
 }

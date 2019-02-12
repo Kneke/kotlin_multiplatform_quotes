@@ -26,18 +26,18 @@ class ViewController: UIViewController, QuoteContractQuoteView {
         //presenter = QuotePresenterImpl(quoteView: self)
         presenter = CommonModuleKt.quotePresenter(quoteView: self)
         
-        loadQuoteInUI()
+        loadQuoteInUI(loadFreshQuote: false)
     }
     
     @IBAction func onNextButtonClick(_ sender: Any) {
-        loadQuoteInUI()
+        loadQuoteInUI(loadFreshQuote: true)
     }
     
-    func loadQuoteInUI() {
+    func loadQuoteInUI(loadFreshQuote: Bool) {
         loadingSpinner.startAnimating()
         quoteLabel.text = ""
         authorLabel.text = ""
-        presenter.showQuote()
+        presenter.showQuote(getFreshQuote: loadFreshQuote)
     }
     
     func setQuote(quote: Quote) {

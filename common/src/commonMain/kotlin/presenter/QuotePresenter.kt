@@ -1,31 +1,35 @@
 package presenter
 
 import data.Quote
+import io.ktor.client.features.logging.DEFAULT
+import io.ktor.client.features.logging.Logger
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import repo.QuoteRepo
 import util.dispatcher.backgroundDispatcher
-import kotlin.coroutines.CoroutineContext
+import util.logger.d
 
 interface QuoteContract {
     interface QuoteView: BaseView {
         fun setQuote(quote: Quote)
     }
-    interface QuotePresenter {
-        fun showQuote()
+    interface QuotePresenter: BasePresenter {
+        fun showQuote(getFreshQuote: Boolean = false)
     }
 }
 
-class QuotePresenterImpl(
-    private val quoteView: QuoteContract.QuoteView, private val repo: QuoteRepo,
-    dispatcherMain: CoroutineContext): QuoteContract.QuotePresenter, BasePresenter(quoteView, dispatcherMain) {
+class QuotePresenterImpl(private val repo: QuoteRepo): BaseCoroutinePresenter<QuoteContract.QuoteView>(), QuoteContract.QuotePresenter {
 
-    override fun showQuote() {
-        launch(coroutineContext) {
+    override lateinit var currentView: QuoteContract.QuoteView
+
+
+    override fun showQuote(getFreshQuote: Boolean) {
+        launch {
             val quote = withContext(backgroundDispatcher) {
-                repo.getRandomQuote()
+                repo.getRandomQuote(getFreshQuote)
             }
-            quoteView.setQuote(quote)
+            currentView.setQuote(quote)
         }
     }
+
 }

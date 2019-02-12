@@ -17,15 +17,24 @@ class MainActivity : AppCompatActivity(), QuoteContract.QuoteView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        nextButton.setOnClickListener { loadQuoteInUI() }
+        nextButton.setOnClickListener { loadQuoteInUI(true) }
+    }
+
+    override fun onResume() {
+        super.onResume()
         loadQuoteInUI()
     }
 
-    fun loadQuoteInUI() {
+    override fun onPause() {
+        super.onPause()
+        presenter.cancelJobs()
+    }
+
+    fun loadQuoteInUI(loadNewQuote: Boolean = false) {
         loadingSpinner.visibility = View.VISIBLE
         quoteText.text = ""
         authorText.text = ""
-        presenter.showQuote()
+        presenter.showQuote(loadNewQuote)
     }
 
     override fun setQuote(quote: Quote) {

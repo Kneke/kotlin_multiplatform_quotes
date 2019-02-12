@@ -15,9 +15,6 @@ class QuoteApi(private val client: HttpClient) {
 
     suspend fun load(): Quote {
         Logger.DEFAULT.d("Call endpoint -> $address", this::class.simpleName.toString())
-        val result = client.get<Quote> {
-            url(address.toString())
-        }
-        return result
+        return client.get { url(address.toString()) }
     }
 }
