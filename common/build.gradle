@@ -1,5 +1,6 @@
 apply plugin: 'kotlin-multiplatform'
 apply plugin: 'kotlinx-serialization'
+apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
 group 'de.cknetsc'
@@ -13,6 +14,15 @@ ext {
     kluent_version = '1.47'
 }
 
+android {
+    compileSdkVersion android_compileSdkVersion
+    sourceSets {
+        main {
+            manifest.srcFile 'src/androidMain/AndroidManifest.xml'
+        }
+    }
+}
+
 kotlin {
     targets {
         // This preset is for iPhone emulator
@@ -22,6 +32,8 @@ kotlin {
         }
 
         fromPreset(presets.jvm, 'jvm')
+
+        fromPreset(presets.android, 'android')
     }
     sourceSets {
         commonMain {
@@ -46,18 +58,22 @@ kotlin {
                 implementation "org.amshove.kluent:kluent:$kluent_version"
             }
         }
-        jvmMain {
+        commonJvm {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
 
-                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines" // TODO Swap this when Android sourceSets is created
-                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_runtime"
 
-                // implementation "io.ktor:ktor-client-core-jvm:$ktor_version" TODO Activate this when Android sourceSets is created
-                implementation "io.ktor:ktor-client-android:$ktor_version"
                 implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
                 implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
+            }
+        }
+        jvmMain {
+            dependsOn commonJvm
+            dependencies {
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines"
+
+                implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
             }
         }
         jvmTest {
@@ -65,6 +81,17 @@ kotlin {
                 implementation 'org.jetbrains.kotlin:kotlin-test'
                 implementation 'org.jetbrains.kotlin:kotlin-test-junit'
             }
+        }
+        androidMain {
+            dependsOn commonJvm
+            dependencies {
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines"
+
+                implementation "io.ktor:ktor-client-android:$ktor_version"
+            }
+        }
+        androidTest {
+            dependsOn jvmTest
         }
         iosMain {
             dependencies {

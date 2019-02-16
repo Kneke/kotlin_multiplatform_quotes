@@ -3,11 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion android_compileSdkVersion
     defaultConfig {
         applicationId "de.cknetsc.multiapp"
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion android_compileSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
