@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         LoggerKt.loggingActive = true // Enable multiplatform logging
+        //DatabaseDriver().setupDB(driver: nil)
         
         return true
     }

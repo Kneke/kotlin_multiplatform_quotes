@@ -2,14 +2,16 @@ package repo
 
 import api.QuoteApi
 import data.Quote
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import de.cknetsc.multiapp.data.QuoteDbQueries
+import io.ktor.client.features.logging.DEFAULT
+import io.ktor.client.features.logging.Logger
+import util.logger.e
 
 interface QuoteRepo {
     suspend fun getRandomQuote(freshData: Boolean): Quote
 }
 
-class QuoteRepoImpl(private val api: QuoteApi) : QuoteRepo {
+class QuoteRepoImpl(private val api: QuoteApi, private val quoteDao: QuoteDbQueries) : QuoteRepo {
 
     private var latestQuoteCache: Quote? = null
 
@@ -18,11 +20,26 @@ class QuoteRepoImpl(private val api: QuoteApi) : QuoteRepo {
         if (freshData) return loadFromApi()
 
         // Get data from cache
-        latestQuoteCache?.let { return latestQuoteCache as Quote }
+        latestQuoteCache?.let {
+            return latestQuoteCache as Quote
+        }
 
-        // TODO implement DB
+        loadFromDb()?.let {
+            saveReceivedDataInCache(it)
+            return it
+        }
 
         return loadFromApi()
+    }
+
+    private fun loadFromDb(): Quote? {
+        try {
+            val quote = quoteDao.selectRandom().executeAsOne()
+            return Quote(quote.id.toInt(), quote.quote, quote.author, quote.permalink)
+        } catch (e: Exception) {
+            Logger.DEFAULT.e(e, "Db Error")
+        }
+        return null
     }
 
     private suspend fun loadFromApi(): Quote {
@@ -32,18 +49,18 @@ class QuoteRepoImpl(private val api: QuoteApi) : QuoteRepo {
     }
 
     private fun saveReceivedDataInCache(quote: Quote) {
-        GlobalScope.async {// TODO Remove GlobalScope and add some new scope that can be canceled
-            latestQuoteCache = quote
-        }
+        // TODO Add some async task here without globalscope
+        latestQuoteCache = quote
     }
 
-
-    private suspend fun saveReceivedDataInDB(quote: Quote) {
-        GlobalScope.async {// TODO Remove GlobalScope and add some new scope that can be canceled
-            // TODO implement DB
-            saveReceivedDataInCache(quote)
+    private fun saveReceivedDataInDB(quote: Quote) {
+        // TODO Add some async task here without globalscope
+        try {
+            quoteDao.insert(quote.id.toLong(), quote.quote, quote.author, quote.permalink)
+        } catch (e: Exception) {
+            Logger.DEFAULT.e(e, "Db Error")
         }
+        saveReceivedDataInCache(quote)
     }
-
 }
 

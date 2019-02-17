@@ -1,5 +1,7 @@
 apply plugin: 'kotlin-multiplatform'
 apply plugin: 'kotlinx-serialization'
+apply plugin: 'com.squareup.sqldelight'
+
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
@@ -14,21 +16,15 @@ ext {
     kluent_version = '1.47'
 }
 
-android {
-    compileSdkVersion android_compileSdkVersion
-    sourceSets {
-        main {
-            manifest.srcFile 'src/androidMain/AndroidManifest.xml'
-        }
-    }
-}
-
 kotlin {
     targets {
         // This preset is for iPhone emulator
         final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") ? presets.iosArm64 : presets.iosX64
         fromPreset(iOSTarget, 'ios') {
             compilations.main.outputKinds('FRAMEWORK')
+            compilations.each {
+                it.extraOpts("-linkerOpts", "-lsqlite3")
+            }
         }
 
         fromPreset(presets.jvm, 'jvm')
@@ -58,7 +54,7 @@ kotlin {
                 implementation "org.amshove.kluent:kluent:$kluent_version"
             }
         }
-        commonJvm {
+        sharedJvm {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
 
@@ -69,9 +65,10 @@ kotlin {
             }
         }
         jvmMain {
-            dependsOn commonJvm
+            dependsOn sharedJvm
             dependencies {
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines"
+                implementation "com.squareup.sqldelight:sqlite-driver:$sqldelight_version"
 
                 implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
             }
@@ -83,9 +80,10 @@ kotlin {
             }
         }
         androidMain {
-            dependsOn commonJvm
+            dependsOn sharedJvm
             dependencies {
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines"
+                implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
 
                 implementation "io.ktor:ktor-client-android:$ktor_version"
             }
@@ -97,6 +95,7 @@ kotlin {
             dependencies {
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$kotlinx_coroutines"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serialization_runtime"
+                implementation "com.squareup.sqldelight:ios-driver:$sqldelight_version"
 
                 implementation "io.ktor:ktor-client-ios:$ktor_version"
                 implementation "io.ktor:ktor-client-core-native:$ktor_version"
@@ -108,6 +107,15 @@ kotlin {
 
         }
     }
+}
+
+android {
+    compileSdkVersion android_compileSdkVersion
+}
+
+sqldelight {
+    packageName = "de.cknetsc.multiapp"
+    className = "MyDatabase"
 }
 
 configurations {

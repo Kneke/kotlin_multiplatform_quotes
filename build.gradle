@@ -2,6 +2,7 @@
 
 buildscript {
     ext.kotlin_version = '1.3.21'
+    ext.sqldelight_version = '1.0.3'
     ext.android_compileSdkVersion = 28
 
     repositories {
@@ -12,6 +13,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+        classpath "com.squareup.sqldelight:gradle-plugin:$sqldelight_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

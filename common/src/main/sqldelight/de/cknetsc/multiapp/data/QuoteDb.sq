@@ -1,0 +1,20 @@
+CREATE TABLE quoteDb (
+  id INTEGER NOT NULL,
+  quote TEXT NOT NULL,
+  author TEXT NOT NULL,
+  permalink TEXT
+);
+
+CREATE INDEX quote_id ON quoteDb(id);
+
+insert:
+INSERT INTO quoteDb(id, quote, author, permalink)
+VALUES (?, ?, ?, ?);
+
+selectAll:
+SELECT * FROM quoteDb;
+
+selectRandom:
+SELECT * FROM quoteDb
+ORDER BY RANDOM()
+LIMIT 1;

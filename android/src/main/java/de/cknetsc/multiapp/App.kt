@@ -1,7 +1,7 @@
 package de.cknetsc.multiapp
 
 import android.app.Application
-import android.content.res.Configuration
+import util.libContext
 import util.logger.loggingActive
 
 class App: Application() {
@@ -10,5 +10,8 @@ class App: Application() {
         super.onCreate()
 
         loggingActive = true // Enable multiplatform logging
+        libContext = this.applicationContext
+
+        //DatabaseDriver.setupDB(null)
     }
 }

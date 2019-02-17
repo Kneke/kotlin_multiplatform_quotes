@@ -5,6 +5,8 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import api.QuoteApi
 import io.ktor.client.features.logging.*
 import api.intercept.ResponseInterceptor
+import data.db.DatabaseDriver
+import de.cknetsc.multiapp.MyDatabase
 import presenter.BaseCoroutinePresenter
 import presenter.QuoteContract
 import presenter.QuotePresenterImpl
@@ -33,8 +35,13 @@ val quoteApi: QuoteApi by lazy {
     QuoteApi(httpClient)
 }
 
+val myDatabase: MyDatabase by lazy {
+    DatabaseDriver.setupDB()
+    DatabaseDriver.dbInstance
+}
+
 val quoteRepo: QuoteRepo by lazy {
-    QuoteRepoImpl(quoteApi)
+    QuoteRepoImpl(quoteApi, myDatabase.quoteDbQueries)
 }
 
 // TODO Make it more kolin style like
