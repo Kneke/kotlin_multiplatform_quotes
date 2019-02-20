@@ -2,7 +2,12 @@ package util.dispatcher
 
 import kotlinx.coroutines.CoroutineDispatcher
 
-internal expect val mainDispatcher: CoroutineDispatcher
+expect object Dispatcher {
 
-internal expect val backgroundDispatcher: CoroutineDispatcher
+    internal val main: CoroutineDispatcher
+
+    internal val io: CoroutineDispatcher
+
+    internal val worker: CoroutineDispatcher
+}
 

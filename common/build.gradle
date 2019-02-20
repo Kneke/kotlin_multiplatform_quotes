@@ -111,11 +111,18 @@ kotlin {
 
 android {
     compileSdkVersion android_compileSdkVersion
+    sourceSets {
+        main {
+            manifest.srcFile 'src/androidMain/AndroidManifest.xml'
+        }
+    }
 }
 
 sqldelight {
     packageName = "de.cknetsc.multiapp"
     className = "MyDatabase"
+    sourceSet = files("src/commonMain/kotlin/sqldelight")
+    schemaOutputDirectory = file("src/commonMain/kotlin/sqldelight")
 }
 
 configurations {

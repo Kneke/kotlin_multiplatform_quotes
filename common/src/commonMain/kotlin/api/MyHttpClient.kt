@@ -1,7 +1,7 @@
 package api
 
 import api.intercept.ResponseInterceptor
-import data.Quote
+import quote.Quote
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer

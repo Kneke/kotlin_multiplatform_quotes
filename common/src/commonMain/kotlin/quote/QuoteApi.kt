@@ -1,6 +1,5 @@
-package api
+package quote
 
-import data.Quote
 import io.ktor.client.HttpClient
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.get

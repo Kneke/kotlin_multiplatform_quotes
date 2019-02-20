@@ -1,16 +1,20 @@
-package data.db
+package util.database
 
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import de.cknetsc.multiapp.MyDatabase
 
-actual object DatabaseDriver {
+actual object DatabaseProvider {
+
     private var driverInstance: SqlDriver? = null
 
     actual val dbInstance: MyDatabase
-        get() = MyDatabase(driverInstance!!)
+        get() {
+            if (driverInstance == null) setupDB()
+            return MyDatabase(driverInstance!!)
+        }
 
-    actual fun setupDB() {
+    internal actual fun setupDB() {
         driverInstance = JdbcSqliteDriver()
     }
 

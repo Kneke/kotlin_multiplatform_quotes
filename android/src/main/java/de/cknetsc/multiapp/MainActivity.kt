@@ -4,10 +4,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import data.Quote
+import quote.Quote
 import injectQuotePresenter
 import kotlinx.android.synthetic.main.activity_main.*
-import presenter.QuoteContract
+import quote.QuoteContract
 
 class MainActivity : AppCompatActivity(), QuoteContract.QuoteView {
 
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), QuoteContract.QuoteView {
 
     override fun onPause() {
         super.onPause()
-        presenter.cancelJobs()
+        presenter.cleanUp()
     }
 
     fun loadQuoteInUI(loadNewQuote: Boolean = false) {

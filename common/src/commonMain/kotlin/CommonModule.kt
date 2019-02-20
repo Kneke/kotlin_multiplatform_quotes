@@ -1,14 +1,13 @@
 import api.MyHttpClient
-import api.QuoteApi
-import data.db.DatabaseDriver
+import quote.QuoteApi
+import util.database.DatabaseProvider
 import de.cknetsc.multiapp.MyDatabase
 import io.ktor.client.HttpClient
-import presenter.BaseCoroutinePresenter
-import presenter.QuoteContract
-import presenter.QuotePresenterImpl
-import repo.QuoteRepo
-import repo.QuoteRepoImpl
-
+import viewpresenter.BaseCoroutinePresenter
+import quote.QuoteContract
+import quote.QuotePresenterImpl
+import quote.QuoteRepo
+import quote.QuoteRepoImpl
 
 val httpClient: HttpClient by lazy {
     MyHttpClient.httpClient
@@ -19,8 +18,7 @@ val quoteApi: QuoteApi by lazy {
 }
 
 val myDatabase: MyDatabase by lazy {
-    DatabaseDriver.setupDB()
-    DatabaseDriver.dbInstance
+    util.database.DatabaseProvider.dbInstance
 }
 
 val quoteRepo: QuoteRepo by lazy {

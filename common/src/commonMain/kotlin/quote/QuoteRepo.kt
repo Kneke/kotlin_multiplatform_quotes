@@ -1,10 +1,12 @@
-package repo
+package quote
 
-import api.QuoteApi
-import data.Quote
 import de.cknetsc.multiapp.data.QuoteDbQueries
 import io.ktor.client.features.logging.DEFAULT
 import io.ktor.client.features.logging.Logger
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import sqldelight.de.cknetsc.multiapp.data.cast
+import util.dispatcher.Dispatcher
 import util.logger.e
 
 interface QuoteRepo {
@@ -20,9 +22,7 @@ class QuoteRepoImpl(private val api: QuoteApi, private val quoteDao: QuoteDbQuer
         if (freshData) return loadFromApi()
 
         // Get data from cache
-        latestQuoteCache?.let {
-            return latestQuoteCache as Quote
-        }
+        latestQuoteCache?.let { return latestQuoteCache as Quote }
 
         loadFromDb()?.let {
             saveReceivedDataInCache(it)
@@ -35,7 +35,7 @@ class QuoteRepoImpl(private val api: QuoteApi, private val quoteDao: QuoteDbQuer
     private fun loadFromDb(): Quote? {
         try {
             val quote = quoteDao.selectRandom().executeAsOne()
-            return Quote(quote.id.toInt(), quote.quote, quote.author, quote.permalink)
+            return quote.cast()
         } catch (e: Exception) {
             Logger.DEFAULT.e(e, "Db Error")
         }
@@ -48,19 +48,19 @@ class QuoteRepoImpl(private val api: QuoteApi, private val quoteDao: QuoteDbQuer
         return quote
     }
 
-    private fun saveReceivedDataInCache(quote: Quote) {
-        // TODO Add some async task here without globalscope
-        latestQuoteCache = quote
+    private fun saveReceivedDataInDB(quote: Quote) {
+        CoroutineScope(Dispatcher.io).launch {
+            try {
+                quoteDao.insert(quote.id.toLong(), quote.quote, quote.author, quote.permalink)
+            } catch (e: Exception) {
+                Logger.DEFAULT.e(e, "Db Error")
+            }
+            saveReceivedDataInCache(quote)
+        }
     }
 
-    private fun saveReceivedDataInDB(quote: Quote) {
-        // TODO Add some async task here without globalscope
-        try {
-            quoteDao.insert(quote.id.toLong(), quote.quote, quote.author, quote.permalink)
-        } catch (e: Exception) {
-            Logger.DEFAULT.e(e, "Db Error")
-        }
-        saveReceivedDataInCache(quote)
+    private fun saveReceivedDataInCache(quote: Quote) {
+        latestQuoteCache = quote
     }
 }
 
