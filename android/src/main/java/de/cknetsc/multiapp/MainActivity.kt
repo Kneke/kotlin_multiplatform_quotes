@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import data.Quote
+import injectQuotePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import presenter.QuoteContract
-import quotePresenter
 
 class MainActivity : AppCompatActivity(), QuoteContract.QuoteView {
 
-    private val presenter = quotePresenter(this)
+    private val presenter = injectQuotePresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

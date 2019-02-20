@@ -23,7 +23,7 @@ kotlin {
         fromPreset(iOSTarget, 'ios') {
             compilations.main.outputKinds('FRAMEWORK')
             compilations.each {
-                it.extraOpts("-linkerOpts", "-lsqlite3")
+                it.extraOpts("-linker-options", "-lsqlite3")
             }
         }
 

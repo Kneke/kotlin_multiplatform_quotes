@@ -9,9 +9,11 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        loggingActive = true // Enable multiplatform logging
+        // Enable multiplatform logging
+        loggingActive = true
+
+        // Share context with multiplatform common module
         libContext = this.applicationContext
 
-        //DatabaseDriver.setupDB(null)
     }
 }
