@@ -1,61 +1,55 @@
 package quote
 
 import de.cknetsc.multiapp.data.QuoteDbQueries
-import io.ktor.client.features.logging.DEFAULT
-import io.ktor.client.features.logging.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import sqldelight.de.cknetsc.multiapp.data.cast
+import util.Resource
 import util.dispatcher.Dispatcher
-import util.logger.e
 
 interface QuoteRepo {
-    suspend fun getRandomQuote(freshData: Boolean): Quote
+    suspend fun getRandomQuote(freshData: Boolean): Resource<Quote>
 }
 
 class QuoteRepoImpl(private val api: QuoteApi, private val quoteDao: QuoteDbQueries) : QuoteRepo {
 
     private var latestQuoteCache: Quote? = null
 
-    override suspend fun getRandomQuote(freshData: Boolean): Quote {
+    override suspend fun getRandomQuote(freshData: Boolean): Resource<Quote> {
         // Directly request new data from server
         if (freshData) return loadFromApi()
 
         // Get data from cache
-        latestQuoteCache?.let { return latestQuoteCache as Quote }
-
-        loadFromDb()?.let {
-            saveReceivedDataInCache(it)
-            return it
+        latestQuoteCache?.let {
+            return Resource.Success(latestQuoteCache as Quote)
         }
 
+        // Get data from DB
+        val quote = loadFromDb()
+        if (quote is Resource.Success) {
+            saveReceivedDataInCache(quote.data)
+            return quote
+        }
+
+        // Get data from Api
         return loadFromApi()
     }
 
-    private fun loadFromDb(): Quote? {
-        try {
-            val quote = quoteDao.selectRandom().executeAsOne()
-            return quote.cast()
-        } catch (e: Exception) {
-            Logger.DEFAULT.e(e, "Db Error")
-        }
-        return null
+    private fun loadFromDb(): Resource<Quote> {
+        return try { Resource.Success(quoteDao.selectRandom().executeAsOne().cast()) }
+        catch (e: Exception) { Resource.DatabaseError() }
     }
 
-    private suspend fun loadFromApi(): Quote {
+    private suspend fun loadFromApi(): Resource<Quote> {
         val quote = api.load()
-        saveReceivedDataInDB(quote)
+        if (quote is Resource.Success) saveReceivedDataInDB(quote.data)
         return quote
     }
 
     private fun saveReceivedDataInDB(quote: Quote) {
         CoroutineScope(Dispatcher.io).launch {
-            try {
-                quoteDao.insert(quote.id.toLong(), quote.quote, quote.author, quote.permalink)
-            } catch (e: Exception) {
-                Logger.DEFAULT.e(e, "Db Error")
-            }
-            saveReceivedDataInCache(quote)
+            try { quoteDao.insert(quote.id.toLong(), quote.quote, quote.author, quote.permalink) }
+            finally { saveReceivedDataInCache(quote) }
         }
     }
 

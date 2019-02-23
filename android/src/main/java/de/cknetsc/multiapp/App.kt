@@ -4,7 +4,7 @@ import android.app.Application
 import util.libContext
 import util.logger.loggingActive
 
-class App: Application() {
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
