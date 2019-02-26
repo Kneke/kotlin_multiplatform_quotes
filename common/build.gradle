@@ -10,8 +10,6 @@ version '0.0.1'
 
 ext {
     kotlinx_coroutines = '1.1.1'
-    kotlinx_serialization_runtime = '0.10.0'
-    ktor_version = '1.1.2'
     mockk_version = '1.9.kotlin12'
     kluent_version = '1.47'
 }
