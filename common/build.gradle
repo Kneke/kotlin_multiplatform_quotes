@@ -28,18 +28,29 @@ kotlin {
         fromPreset(presets.jvm, 'jvm')
 
         fromPreset(presets.android, 'android')
+        
+        fromPreset(presets.js, "js") {
+            compilations.all {
+                kotlinOptions {
+                    metaInfo = true
+                    sourceMap = true
+                    moduleKind = 'umd'
+                    outputFile = "${projectDir}/../web/out/js/common/${project.name}.js"
+                }
+            }
+        }
     }
     sourceSets {
         commonMain {
             dependencies {
-                implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                api 'org.jetbrains.kotlin:kotlin-stdlib-common'
 
-                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$kotlinx_coroutines"
-                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlinx_serialization_runtime"
+                api "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$kotlinx_coroutines"
+                api "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlinx_serialization_runtime"
 
-                implementation "io.ktor:ktor-client-core:$ktor_version"
-                implementation "io.ktor:ktor-client-json:$ktor_version"
-                implementation "io.ktor:ktor-client-logging:$ktor_version"
+                api "io.ktor:ktor-client-core:$ktor_version"
+                api "io.ktor:ktor-client-json:$ktor_version"
+                api "io.ktor:ktor-client-logging:$ktor_version"
             }
         }
         commonTest {
@@ -52,23 +63,24 @@ kotlin {
                 implementation "org.amshove.kluent:kluent:$kluent_version"
             }
         }
-        sharedJvm {
+        commonMobileMain {
+            dependsOn commonMain
+        }
+        commonMobileTest {
+            dependsOn commonTest
+        }
+        jvmMain {
+            dependsOn commonMobileMain
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
 
-                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_runtime"
-
-                implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
-                implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
-            }
-        }
-        jvmMain {
-            dependsOn sharedJvm
-            dependencies {
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines"
                 implementation "com.squareup.sqldelight:sqlite-driver:$sqldelight_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_runtime"
 
                 implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
+                implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
+                implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
             }
         }
         jvmTest {
@@ -78,18 +90,27 @@ kotlin {
             }
         }
         androidMain {
-            dependsOn sharedJvm
+            dependsOn commonMobileMain
             dependencies {
+                implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+                
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines"
                 implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_runtime"
 
                 implementation "io.ktor:ktor-client-android:$ktor_version"
+                implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
+                implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
             }
         }
         androidTest {
-            dependsOn jvmTest
+            dependencies {
+                implementation 'org.jetbrains.kotlin:kotlin-test'
+                implementation 'org.jetbrains.kotlin:kotlin-test-junit'
+            }
         }
         iosMain {
+            dependsOn commonMobileMain
             dependencies {
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$kotlinx_coroutines"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serialization_runtime"
@@ -103,6 +124,23 @@ kotlin {
         }
         iosTest {
 
+        }
+        jsMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
+
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$kotlinx_serialization_runtime"
+
+                implementation "io.ktor:ktor-client-js:$ktor_version"
+                implementation "io.ktor:ktor-client-json-native:$ktor_version"
+                implementation "io.ktor:ktor-client-logging-native:$ktor_version"
+            }
+        }
+        jsTest {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-test-js"
+            }
         }
     }
 }
@@ -119,10 +157,11 @@ android {
 sqldelight {
     packageName = "de.cknetsc.multiapp"
     className = "MyDatabase"
-    sourceSet = files("src/commonMain/kotlin/sqldelight")
-    schemaOutputDirectory = file("src/commonMain/kotlin/sqldelight")
+    sourceSet = files("src/commonMobileMain/kotlin/sqldelight")
+    schemaOutputDirectory = file("src/commonMobileMain/kotlin/sqldelight")
 }
 
+// workaround for https://youtrack.jetbrains.com/issue/KT-27170
 configurations {
     compileClasspath
 }

@@ -1,0 +1,74 @@
+apply plugin: 'kotlin2js'
+
+
+configurations {
+    jsImplementation.extendsFrom implementation
+}
+
+dependencies {
+    implementation project(':common')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.1.1"
+    
+    //testImplementation "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+}
+
+compileKotlin2Js {
+    kotlinOptions.outputFile = "${projectDir}/out/js/app.js"
+    kotlinOptions.moduleKind = "umd"
+    kotlinOptions.metaInfo = true
+    kotlinOptions.suppressWarnings = true
+    kotlinOptions.sourceMap = true
+    kotlinOptions.verbose = true
+    kotlinOptions.main = "call"
+}
+
+clean.doFirst {
+    delete "${projectDir}/out"
+}
+
+task copyHTML << {
+    copy {
+        from "${buildDir}/resources/main"
+        into "${projectDir}/out"
+    }
+}
+
+task assembleJSDependencies << {
+    fileTree("/Users/cknetsc/.gradle/caches").include("**/*.jar").files.each { File file ->
+        copy {
+            from zipTree(file.absolutePath)
+            into "${projectDir}/out/js/lib"
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                path.endsWith(".js")
+            }
+        }
+    }
+}
+
+
+build.dependsOn copyHTML
+build.dependsOn assembleJSDependencies
+
+task assembleJSDependenciesNotWorking << {
+    // This will not work because of not fetchable nullpointer execption
+    configurations.jsImplementation.each { println it }
+
+    configurations.jsImplementation.each { File file ->
+        if (file != null && file.absolutePath != null) {
+            copy {
+                includeEmptyDirs = false
+                from zipTree(file.absolutePath)
+                into "${projectDir}/out/js/lib/"
+                include { fileTreeElement ->
+                    if (fileTreeElement != null && fileTreeElement.path != null) {
+                        def path = fileTreeElement.path
+                        path.endsWith(".js")
+                    }
+                }
+            }
+        }
+    }
+}

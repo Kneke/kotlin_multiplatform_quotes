@@ -1,5 +1,4 @@
 import api.MyHttpClient
-import de.cknetsc.multiapp.MyDatabase
 import io.ktor.client.HttpClient
 import quote.*
 import viewpresenter.BaseCoroutinePresenter
@@ -12,12 +11,8 @@ val quoteApi: QuoteApi by lazy {
     QuoteApi(httpClient)
 }
 
-val myDatabase: MyDatabase by lazy {
-    util.database.DatabaseProvider.dbInstance
-}
-
 val quoteRepo: QuoteRepo by lazy {
-    QuoteRepoImpl(quoteApi, myDatabase.quoteDbQueries)
+    QuoteRepoImpl(quoteApi)
 }
 
 // TODO Make it more kolin style like
