@@ -1,4 +1,4 @@
-package quote
+package data
 
 import kotlinx.serialization.Serializable
 

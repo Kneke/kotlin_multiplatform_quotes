@@ -63,6 +63,23 @@ kotlin {
                 implementation "org.amshove.kluent:kluent:$kluent_version"
             }
         }
+        jsMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
+
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$kotlinx_serialization_runtime"
+
+                implementation "io.ktor:ktor-client-js:$ktor_version"
+                implementation "io.ktor:ktor-client-json-native:$ktor_version"
+                implementation "io.ktor:ktor-client-logging-native:$ktor_version"
+            }
+        }
+        jsTest {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-test-js"
+            }
+        }
         commonMobileMain {
             dependsOn commonMain
         }
@@ -84,6 +101,7 @@ kotlin {
             }
         }
         jvmTest {
+            dependsOn commonMobileTest
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-test'
                 implementation 'org.jetbrains.kotlin:kotlin-test-junit'
@@ -104,6 +122,7 @@ kotlin {
             }
         }
         androidTest {
+            dependsOn commonMobileTest
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-test'
                 implementation 'org.jetbrains.kotlin:kotlin-test-junit'
@@ -124,23 +143,6 @@ kotlin {
         }
         iosTest {
 
-        }
-        jsMain {
-            dependencies {
-                implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
-
-                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines"
-                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$kotlinx_serialization_runtime"
-
-                implementation "io.ktor:ktor-client-js:$ktor_version"
-                implementation "io.ktor:ktor-client-json-native:$ktor_version"
-                implementation "io.ktor:ktor-client-logging-native:$ktor_version"
-            }
-        }
-        jsTest {
-            dependencies {
-                implementation "org.jetbrains.kotlin:kotlin-test-js"
-            }
         }
     }
 }

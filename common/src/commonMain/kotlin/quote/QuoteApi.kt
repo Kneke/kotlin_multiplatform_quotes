@@ -1,10 +1,11 @@
 package quote
 
+import data.Quote
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.url
 import io.ktor.http.Url
-import util.Resource
+import data.Resource
 
 class QuoteApi(private val client: HttpClient) {
 

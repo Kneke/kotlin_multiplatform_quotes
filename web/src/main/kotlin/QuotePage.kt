@@ -1,6 +1,6 @@
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLDivElement
-import quote.Quote
+import data.Quote
 import quote.QuoteContract
 import kotlin.browser.document
 

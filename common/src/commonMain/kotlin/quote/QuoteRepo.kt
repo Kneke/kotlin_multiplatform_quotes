@@ -1,6 +1,7 @@
 package quote
 
-import util.Resource
+import data.Quote
+import data.Resource
 
 interface QuoteRepo {
     suspend fun getRandomQuote(freshData: Boolean): Resource<Quote>

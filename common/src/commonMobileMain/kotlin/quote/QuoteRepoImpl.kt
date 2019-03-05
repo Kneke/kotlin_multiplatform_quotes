@@ -1,10 +1,11 @@
 package quote
 
+import data.Quote
 import de.cknetsc.multiapp.data.QuoteDbQueries
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import sqldelight.de.cknetsc.multiapp.data.cast
-import util.Resource
+import data.Resource
 import util.dispatcher.Dispatcher
 
 class QuoteRepoImpl(private val api: QuoteApi, private val quoteDao: QuoteDbQueries) : QuoteRepo {

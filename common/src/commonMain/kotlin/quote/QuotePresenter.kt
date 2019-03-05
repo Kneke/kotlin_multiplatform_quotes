@@ -1,8 +1,9 @@
 package quote
 
+import data.Quote
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import util.Resource
+import data.Resource
 import util.dispatcher.Dispatcher
 import viewpresenter.BaseCoroutinePresenter
 import viewpresenter.BasePresenter

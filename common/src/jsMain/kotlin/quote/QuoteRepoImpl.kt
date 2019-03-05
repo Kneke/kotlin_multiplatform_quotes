@@ -1,6 +1,7 @@
 package quote
 
-import util.Resource
+import data.Quote
+import data.Resource
 
 class QuoteRepoImpl(private val quoteApi: QuoteApi): QuoteRepo {
 

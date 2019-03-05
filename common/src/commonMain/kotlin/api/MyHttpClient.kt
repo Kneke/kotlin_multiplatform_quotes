@@ -8,7 +8,7 @@ import io.ktor.client.features.logging.DEFAULT
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
-import quote.Quote
+import data.Quote
 import kotlin.native.concurrent.ThreadLocal
 
 @ThreadLocal // FIXME In nativ ktor throws exception without this

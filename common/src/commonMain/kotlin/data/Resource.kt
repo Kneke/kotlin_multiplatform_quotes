@@ -1,4 +1,4 @@
-package util
+package data
 
 sealed class Resource<out T> {
     class Loading<out T> : Resource<T>()

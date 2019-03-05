@@ -1,17 +1,26 @@
+import data.Quote
 import io.ktor.application.*
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
 import io.ktor.gson.gson
 import io.ktor.html.respondHtml
+import io.ktor.http.content.resource
+import io.ktor.http.content.static
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import kotlinx.html.*
-import quote.Quote
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.list
+import java.lang.Exception
+import kotlin.random.Random
+
+lateinit var quoteList: List<Quote>
 
 fun main(args: Array<String>) {
+    quoteList = getQuotesFromResources()
     embeddedServer(Netty, 8080, watchPaths = listOf("MainKt"), module = Application::module).start()
 }
 
@@ -24,24 +33,52 @@ fun Application.module() {
         }
     }
     install(Routing) {
+        static("static") {
+            resource("quotes.json")
+        }
         get("/") {
+            val randomQuote = getRandomQuote()
             call.respondHtml {
                 head {
                     title(content = "Ktor Website for Quotes")
                 }
                 body {
-                    h1 {
-                        + "Welcome to my Ktor Webservice"
+                    div {
+                        p {
+                            + randomQuote.quote
+                        }
+                        p {
+                            + randomQuote.author
+                        }
+                        a {
+
+                        }
                     }
-                    h3 {
-                        + "We serve Quotes as json from the mutiplatform lib. Just set path to /quote"
+                    div {
+                        form(action = "/", method = FormMethod.get) {
+                            input(InputType.submit) { value = "next" }
+                        }
                     }
                 }
             }
         }
         get("/quote") {
-            call.respond(Quote(1337, "Guter Sourcecode macht mich geil.", "Christoph Knetschke", ""))
+            call.respond(getRandomQuote())
         }
     }
+}
 
+fun getRandomQuote(): Quote {
+    return quoteList[Random.nextInt(0, quoteList.lastIndex)]
+}
+
+
+fun getQuotesFromResources(): List<Quote> {
+    return try {
+        val jsonResponses = object {}.javaClass.getResource("quotes.json").readText(Charsets.UTF_8)
+        Json.parse(Quote.serializer().list, jsonResponses)
+    } catch (e: Exception) {
+        println(e)
+        listOf(Quote(1337, "Guter Sourcecode macht mich geil.", "Christoph Knetschke", ""))
+    }
 }

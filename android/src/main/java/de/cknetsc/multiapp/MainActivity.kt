@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import injectQuotePresenter
 import kotlinx.android.synthetic.main.activity_main.*
-import quote.Quote
+import data.Quote
 import quote.QuoteContract
 
 class MainActivity : AppCompatActivity(), QuoteContract.QuoteView {
