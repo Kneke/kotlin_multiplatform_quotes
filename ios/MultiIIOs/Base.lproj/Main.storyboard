@@ -27,20 +27,17 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alp-Yc-Ima">
-                                <rect key="frame" x="0.0" y="647" width="375" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1mL-k3-X1j">
+                                <rect key="frame" x="16" y="351" width="343" height="0.0"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="8F5-37-RJo"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="baS-fa-wml">
-                                <rect key="frame" x="177" y="323" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
-                            </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1mL-k3-X1j">
-                                <rect key="frame" x="166" y="351" width="0.0" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alp-Yc-Ima">
+                                <rect key="frame" x="0.0" y="647" width="375" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -53,14 +50,22 @@
                                     <action selector="onNextButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CVn-up-MQx"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="baS-fa-wml">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Mur-UN-ZVV" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="FH6-Jo-HU9"/>
                             <constraint firstItem="alp-Yc-Ima" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="M1e-8L-pME"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="alp-Yc-Ima" secondAttribute="trailing" id="MzS-2e-UFg"/>
+                            <constraint firstItem="1mL-k3-X1j" firstAttribute="top" secondItem="Mur-UN-ZVV" secondAttribute="bottom" constant="17.5" id="Sl5-zC-nTE"/>
                             <constraint firstItem="Mur-UN-ZVV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Z7p-eI-3Zs"/>
+                            <constraint firstAttribute="trailing" secondItem="1mL-k3-X1j" secondAttribute="trailing" constant="16" id="akh-Gz-99U"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="alp-Yc-Ima" secondAttribute="bottom" constant="20" id="fGv-hL-hUg"/>
+                            <constraint firstItem="1mL-k3-X1j" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="gcH-37-hEk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
