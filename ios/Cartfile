@@ -1,0 +1,2 @@
+github "Daltron/NotificationBanner" "master"
+github "SwiftyJSON/SwiftyJSON" ~> 4.0
