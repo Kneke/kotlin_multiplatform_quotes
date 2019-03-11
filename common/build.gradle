@@ -35,7 +35,6 @@ kotlin {
                     metaInfo = true
                     sourceMap = true
                     moduleKind = 'umd'
-                    outputFile = "${projectDir}/../web/out/js/common/${project.name}.js"
                 }
             }
         }
@@ -188,3 +187,24 @@ task packForXCode(type: Sync) {
 }
 
 tasks.build.dependsOn packForXCode
+
+
+def webFolder = new File(project.buildDir, "../../web/out/js/lib")
+def jsCompilations = kotlin.targets.js.compilations
+
+task populateWebFolder(dependsOn: [jsMainClasses]) {
+    doLast {
+        copy {
+            from jsCompilations.main.output
+            from kotlin.sourceSets.jsMain.resources.srcDirs
+            jsCompilations.test.runtimeDependencyFiles.each {
+                if (it.exists() && !it.isDirectory()) {
+                    from zipTree(it.absolutePath).matching { include '*.js' }
+                }
+            }
+            into webFolder
+        }
+    }
+}
+
+jsJar.dependsOn(populateWebFolder)

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>MultiApp</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <div class="center-div" id="quoteText"></div>
@@ -25,7 +25,19 @@
 <script type="text/javascript" src="js/lib/ktor-client-json.js"></script>
 <script type="text/javascript" src="js/lib/ktor-client-logging.js"></script>
 <script type="text/javascript" src="js/lib/sqldelight-runtime.js"></script>
-<script type="text/javascript" src="js/common/common.js"></script>
+<script type="text/javascript" src="js/lib/common.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
+
+<!--
+<script src="js/required.js" ></script>
+<script>
+    require.config({
+        baseUrl: 'js/lib'
+    });
+
+    require(['../app']);
+</script>
+-->
+
 </body>
 </html>

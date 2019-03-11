@@ -1,10 +1,5 @@
 apply plugin: 'kotlin2js'
 
-
-configurations {
-    jsImplementation.extendsFrom implementation
-}
-
 dependencies {
     implementation project(':common')
 
@@ -35,40 +30,4 @@ task copyHTML << {
     }
 }
 
-task assembleJSDependencies << {
-    fileTree("/Users/cknetsc/.gradle/caches").include("**/*.jar").files.each { File file ->
-        copy {
-            from zipTree(file.absolutePath)
-            into "${projectDir}/out/js/lib"
-            include { fileTreeElement ->
-                def path = fileTreeElement.path
-                path.endsWith(".js")
-            }
-        }
-    }
-}
-
-
 build.dependsOn copyHTML
-build.dependsOn assembleJSDependencies
-
-task assembleJSDependenciesNotWorking << {
-    // This will not work because of not fetchable nullpointer execption
-    configurations.jsImplementation.each { println it }
-
-    configurations.jsImplementation.each { File file ->
-        if (file != null && file.absolutePath != null) {
-            copy {
-                includeEmptyDirs = false
-                from zipTree(file.absolutePath)
-                into "${projectDir}/out/js/lib/"
-                include { fileTreeElement ->
-                    if (fileTreeElement != null && fileTreeElement.path != null) {
-                        def path = fileTreeElement.path
-                        path.endsWith(".js")
-                    }
-                }
-            }
-        }
-    }
-}
