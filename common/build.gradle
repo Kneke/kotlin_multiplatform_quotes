@@ -1,41 +1,26 @@
 apply plugin: 'kotlin-multiplatform'
 apply plugin: 'kotlinx-serialization'
-apply plugin: 'com.squareup.sqldelight'
-
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
-
-group 'de.cknetsc'
-version '0.0.1'
-
-ext {
-    kotlinx_coroutines = '1.1.1'
-    mockk_version = '1.9.kotlin12'
-    kluent_version = '1.47'
-}
 
 kotlin {
     targets {
+        jvm()
+        android()
+        js().compilations.all {
+            kotlinOptions {
+                metaInfo = true
+                sourceMap = true
+                moduleKind = 'umd'
+            }
+        }
         // This preset is for iPhone emulator
         final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") ? presets.iosArm64 : presets.iosX64
         fromPreset(iOSTarget, 'ios') {
-            compilations.main.outputKinds('FRAMEWORK')
-            compilations.each {
-                it.extraOpts("-linker-options", "-lsqlite3")
+            binaries.framework {
+                baseName = "main"
             }
-        }
-
-        fromPreset(presets.jvm, 'jvm')
-
-        fromPreset(presets.android, 'android')
-        
-        fromPreset(presets.js, "js") {
-            compilations.all {
-                kotlinOptions {
-                    metaInfo = true
-                    sourceMap = true
-                    moduleKind = 'umd'
-                }
+            compilations.each {
+                it.kotlinOptions.freeCompilerArgs = ["-linker-options", "-lsqlite3"]
             }
         }
     }
@@ -44,39 +29,60 @@ kotlin {
             dependencies {
                 api 'org.jetbrains.kotlin:kotlin-stdlib-common'
 
-                api "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$kotlinx_coroutines"
-                api "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlinx_serialization_runtime"
+                api "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines_version"
+                api "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlinx_serialization_version"
 
                 api "io.ktor:ktor-client-core:$ktor_version"
-                api "io.ktor:ktor-client-json:$ktor_version"
                 api "io.ktor:ktor-client-logging:$ktor_version"
+                api "io.ktor:ktor-client-json:$ktor_version"
+                api "io.ktor:ktor-client-serialization:$ktor_version"
             }
         }
         commonTest {
             dependencies {
-                implementation 'org.jetbrains.kotlin:kotlin-test-common'
-                implementation 'org.jetbrains.kotlin:kotlin-test-annotations-common'
+                api 'org.jetbrains.kotlin:kotlin-test-common'
+                api 'org.jetbrains.kotlin:kotlin-test-annotations-common'
 
-                implementation "io.mockk:mockk:$mockk_version"
-                implementation "io.mockk:mockk-common:$mockk_version"
-                implementation "org.amshove.kluent:kluent:$kluent_version"
+                api "io.mockk:mockk:$mockk_version"
+                api "io.mockk:mockk-common:$mockk_version"
+                api "org.amshove.kluent:kluent:$kluent_version"
             }
         }
         jsMain {
             dependencies {
                 implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
 
-                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines"
-                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$kotlinx_serialization_runtime"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$kotlinx_serialization_version"
 
                 implementation "io.ktor:ktor-client-js:$ktor_version"
-                implementation "io.ktor:ktor-client-json-native:$ktor_version"
-                implementation "io.ktor:ktor-client-logging-native:$ktor_version"
+                implementation "io.ktor:ktor-client-logging-js:$ktor_version"
+                implementation "io.ktor:ktor-client-json-js:$ktor_version"
+                implementation "io.ktor:ktor-client-serialization-js:$ktor_version"
             }
         }
         jsTest {
             dependencies {
                 implementation "org.jetbrains.kotlin:kotlin-test-js"
+            }
+        }
+        jvmMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
+
+                implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
+                implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
+                implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+                implementation "io.ktor:ktor-client-serialization-jvm:$ktor_version"
+            }
+        }
+        jvmTest {
+            dependencies {
+                implementation 'org.jetbrains.kotlin:kotlin-test'
+                implementation 'org.jetbrains.kotlin:kotlin-test-junit'
             }
         }
         commonMobileMain {
@@ -85,39 +91,18 @@ kotlin {
         commonMobileTest {
             dependsOn commonTest
         }
-        jvmMain {
-            dependsOn commonMobileMain
-            dependencies {
-                implementation 'org.jetbrains.kotlin:kotlin-stdlib'
-
-                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines"
-                implementation "com.squareup.sqldelight:sqlite-driver:$sqldelight_version"
-                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_runtime"
-
-                implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
-                implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
-                implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
-            }
-        }
-        jvmTest {
-            dependsOn commonMobileTest
-            dependencies {
-                implementation 'org.jetbrains.kotlin:kotlin-test'
-                implementation 'org.jetbrains.kotlin:kotlin-test-junit'
-            }
-        }
         androidMain {
             dependsOn commonMobileMain
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
                 
-                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines"
-                implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
-                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_runtime"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
 
                 implementation "io.ktor:ktor-client-android:$ktor_version"
                 implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
                 implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+                implementation "io.ktor:ktor-client-serialization-jvm:$ktor_version"
             }
         }
         androidTest {
@@ -130,14 +115,14 @@ kotlin {
         iosMain {
             dependsOn commonMobileMain
             dependencies {
-                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$kotlinx_coroutines"
-                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serialization_runtime"
-                implementation "com.squareup.sqldelight:ios-driver:$sqldelight_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serialization_version"
 
                 implementation "io.ktor:ktor-client-ios:$ktor_version"
                 implementation "io.ktor:ktor-client-core-native:$ktor_version"
-                implementation "io.ktor:ktor-client-json-native:$ktor_version"
                 implementation "io.ktor:ktor-client-logging-native:$ktor_version"
+                implementation "io.ktor:ktor-client-json-native:$ktor_version"
+                implementation "io.ktor:ktor-client-serialization-native:$ktor_version"
             }
         }
         iosTest {
@@ -147,24 +132,12 @@ kotlin {
 }
 
 android {
-    compileSdkVersion android_compileSdkVersion
+    compileSdkVersion android_compile_sdk_version as Integer
     sourceSets {
         main {
             manifest.srcFile 'src/androidMain/AndroidManifest.xml'
         }
     }
-}
-
-sqldelight {
-    packageName = "de.cknetsc.multiapp"
-    className = "MyDatabase"
-    sourceSet = files("src/commonMobileMain/kotlin/sqldelight")
-    schemaOutputDirectory = file("src/commonMobileMain/kotlin/sqldelight")
-}
-
-// workaround for https://youtrack.jetbrains.com/issue/KT-27170
-configurations {
-    compileClasspath
 }
 
 
@@ -173,9 +146,9 @@ task packForXCode(type: Sync) {
     final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
 
     inputs.property "mode", mode
-    dependsOn kotlin.targets.ios.compilations.main.linkTaskName("FRAMEWORK", mode)
+    dependsOn kotlin.targets.getByName("ios").binaries.getFramework(mode).linkTask
 
-    from { kotlin.targets.ios.compilations.main.getBinary("FRAMEWORK", mode).parentFile }
+    from { kotlin.targets.getByName("ios").binaries.getFramework(mode).outputDirectory }
     into frameworkDir
 
     doLast {

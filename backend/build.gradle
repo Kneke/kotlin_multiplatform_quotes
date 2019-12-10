@@ -4,26 +4,16 @@ apply plugin: 'application'
 
 mainClassName = 'MainKt'
 
-sourceCompatibility = 1.8
-compileKotlin { kotlinOptions.jvmTarget = "1.8" }
-compileTestKotlin { kotlinOptions.jvmTarget = "1.8" }
-
 dependencies {
-    // FIXME Change this to compile only common module jar file and add module sourceset as dependency
-    implementation project(':common') 
-    implementation fileTree(dir: '../common/build/libs', include: ['*.jar'])
-    
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation project(':common')
 
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_runtime"
-    
     implementation "io.ktor:ktor-server-core:$ktor_version"
     implementation "io.ktor:ktor-server-netty:$ktor_version"
-    implementation "io.ktor:ktor-gson:$ktor_version"
+    implementation "io.ktor:ktor-serialization:$ktor_version"
     implementation "io.ktor:ktor-html-builder:$ktor_version"
 
-    implementation "ch.qos.logback:logback-classic:1.2.3"
+    implementation "ch.qos.logback:logback-classic:$logback_version"
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 

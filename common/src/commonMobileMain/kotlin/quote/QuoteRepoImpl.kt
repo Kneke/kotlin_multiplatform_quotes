@@ -1,14 +1,12 @@
 package quote
 
 import data.Quote
-import de.cknetsc.multiapp.data.QuoteDbQueries
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import sqldelight.de.cknetsc.multiapp.data.cast
 import data.Resource
 import util.dispatcher.Dispatcher
 
-class QuoteRepoImpl(private val api: QuoteApi, private val quoteDao: QuoteDbQueries) : QuoteRepo {
+class QuoteRepoImpl(private val api: QuoteApi) : QuoteRepo {
 
     private var latestQuoteCache: Quote? = null
 
@@ -33,8 +31,11 @@ class QuoteRepoImpl(private val api: QuoteApi, private val quoteDao: QuoteDbQuer
     }
 
     private fun loadFromDb(): Resource<Quote> {
+        return Resource.DatabaseError()
+        /*
         return try { Resource.Success(quoteDao.selectRandom().executeAsOne().cast()) }
         catch (e: Exception) { Resource.DatabaseError() }
+         */
     }
 
     private suspend fun loadFromApi(): Resource<Quote> {
@@ -44,10 +45,12 @@ class QuoteRepoImpl(private val api: QuoteApi, private val quoteDao: QuoteDbQuer
     }
 
     private fun saveReceivedDataInDB(quote: Quote) {
+        /*
         CoroutineScope(Dispatcher.io).launch {
             try { quoteDao.insert(quote.id.toLong(), quote.quote, quote.author, quote.permalink) }
             finally { saveReceivedDataInCache(quote) }
         }
+         */
     }
 
     private fun saveReceivedDataInCache(quote: Quote) {

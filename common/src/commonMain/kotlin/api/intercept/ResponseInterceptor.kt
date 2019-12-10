@@ -2,8 +2,8 @@ package api.intercept
 
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpClientFeature
-import io.ktor.client.response.HttpResponse
-import io.ktor.client.response.HttpResponsePipeline
+import io.ktor.client.statement.HttpResponsePipeline
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.isSuccess
 import io.ktor.util.AttributeKey
 
@@ -15,13 +15,11 @@ object ResponseInterceptor : HttpClientFeature<Unit, ResponseInterceptor> {
 
     override fun install(feature: ResponseInterceptor, scope: HttpClient) {
         scope.responsePipeline.intercept(HttpResponsePipeline.Receive) {
-            val response = subject.response as HttpResponse
-
-            if (!response.status.isSuccess()) throw ApiException(response)
-
+            val response = context.response
+            if (!response.status.isSuccess()) throw ApiException(response.status)
             proceedWith(subject)
         }
     }
 }
 
-class ApiException(val response: HttpResponse) : Throwable()
+class ApiException(val response: HttpStatusCode) : Throwable()

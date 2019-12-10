@@ -4,9 +4,6 @@ dependencies {
     implementation project(':common')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.1.1"
-    
-    //testImplementation "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
 
 compileKotlin2Js {
@@ -23,10 +20,12 @@ clean.doFirst {
     delete "${projectDir}/out"
 }
 
-task copyHTML << {
-    copy {
-        from "${buildDir}/resources/main"
-        into "${projectDir}/out"
+task copyHTML {
+    doLast {
+        copy {
+            from "${buildDir}/resources/main"
+            into "${projectDir}/out"
+        }
     }
 }
 
