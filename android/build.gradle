@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion android_compile_sdk_version as Integer
     defaultConfig {
-        applicationId "de.cknetsc.multiapp"
+        applicationId "de.kneke.multiapp"
         minSdkVersion android_min_sdk_version as Integer
         targetSdkVersion android_target_sdk_version as Integer
         multiDexEnabled = true

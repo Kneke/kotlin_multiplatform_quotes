@@ -1,0 +1,20 @@
+CREATE TABLE quoteRecord (
+  id INTEGER NOT NULL,
+  quote TEXT NOT NULL,
+  author TEXT NOT NULL,
+  permalink TEXT
+);
+
+CREATE INDEX quote_id ON quoteRecord(id);
+
+insert:
+INSERT INTO quoteRecord(id, quote, author, permalink)
+VALUES (?, ?, ?, ?);
+
+selectAll:
+SELECT * FROM quoteRecord;
+
+selectRandom:
+SELECT * FROM quoteRecord
+ORDER BY RANDOM()
+LIMIT 1;

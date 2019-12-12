@@ -1,4 +1,4 @@
-package de.cknetsc.multiapp
+package de.kneke.multiapp
 
 import org.junit.Test
 

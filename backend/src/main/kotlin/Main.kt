@@ -1,4 +1,4 @@
-import data.Quote
+import de.kneke.common.data.Quote
 import io.ktor.application.*
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation

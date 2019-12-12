@@ -1,7 +1,7 @@
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLDivElement
-import data.Quote
-import quote.QuoteContract
+import de.kneke.common.data.Quote
+import de.kneke.common.quote.QuoteContract
 import kotlin.browser.document
 
 class QuotePage: QuoteContract.QuoteView {

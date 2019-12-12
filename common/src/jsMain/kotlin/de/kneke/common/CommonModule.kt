@@ -1,6 +1,4 @@
 import de.kneke.common.api.MyHttpClient
-import de.kneke.common.db.DatabaseHelper
-import de.kneke.common.db.MyDatabase
 import de.kneke.common.quote.*
 import io.ktor.client.HttpClient
 import de.kneke.common.viewpresenter.BaseCoroutinePresenter
@@ -13,12 +11,8 @@ val quoteApi: QuoteApi by lazy {
     QuoteApi(httpClient)
 }
 
-val myDatabase: MyDatabase by lazy {
-    DatabaseHelper("test.db").database
-}
-
 val quoteRepo: QuoteRepo by lazy {
-    QuoteRepoImpl(quoteApi, myDatabase.quoteQueries)
+    QuoteRepoImpl(quoteApi)
 }
 
 // TODO Make it more kolin style like
