@@ -5,48 +5,57 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import de.kneke.common.viewmodel.quote.QuoteViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import de.kneke.common.data.Quote
-import de.kneke.common.quote.QuoteContract
-import getPresenter
+import de.kneke.common.data.Resource
+import quoteViewModel
 
-class MainActivity : AppCompatActivity(), QuoteContract.QuoteView {
-    private val presenter = getPresenter(this)
+class MainActivity : AppCompatActivity() {
+
+    private val viewModel: QuoteViewModel = quoteViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        nextButton.setOnClickListener { loadQuoteInUI(true) }
-    }
+        viewModel.quoteResource.watch {
+            when(it) {
+                is Resource.Loading -> showLoadingSpinner(true)
+                is Resource.Success -> setQuote(it.data)
+                is Resource.NetworkError -> showError(it.throwable)
+            }
+        }
 
-    override fun onResume() {
-        super.onResume()
+        nextButton.setOnClickListener { loadQuoteInUI(true) }
+
         loadQuoteInUI()
     }
 
     override fun onPause() {
         super.onPause()
-        presenter.cleanUp()
+        viewModel.clear()
     }
 
-    fun loadQuoteInUI(loadNewQuote: Boolean = false) {
+    private fun loadQuoteInUI(loadNewQuote: Boolean = false) {
         quoteText.text = ""
         authorText.text = ""
-        presenter.showQuote(loadNewQuote)
+        viewModel.get(loadNewQuote)
     }
 
-    override fun setQuote(quote: Quote) {
+    private fun setQuote(quote: Quote) {
         quoteText.text = quote.quote
         authorText.text = quote.author
+        showLoadingSpinner(false)
     }
 
-    override fun showError(error: Throwable) {
+    private fun showError(error: Throwable) {
+        showLoadingSpinner(false)
         Log.e("MainActivity", error.message)
         Toast.makeText(this, "Network Error happens", Toast.LENGTH_SHORT ).show()
     }
 
-    override fun showLoadingSpinner(visibility: Boolean) {
+    fun showLoadingSpinner(visibility: Boolean) {
         loadingSpinner.visibility = if (visibility) View.VISIBLE else View.GONE
     }
 }

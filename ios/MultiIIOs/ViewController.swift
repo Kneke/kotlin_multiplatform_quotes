@@ -9,22 +9,32 @@
 import UIKit
 import main
 
-class ViewController: UIViewController, QuoteContractQuoteView {
+class ViewController: UIViewController {
     
     @IBOutlet weak var quoteLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var output: UILabel!
-    
-    var presenter: QuoteContractQuotePresenter!
+
+    var viewModel: QuoteViewModel = CommonClientModuleKt.quoteViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        //quote.presenter = QuotePresenterImpl(quoteView: self)
-        presenter = CommonModuleKt.getPresenter(quoteView: self)
+                
+        viewModel.quoteResource.watch { quoteRes in
+            switch quoteRes {
+            case is ResourceLoading<Quote>:
+                self.showLoadingSpinner(visibility: true)
+            case let success as ResourceSuccess<Quote>:
+                self.setQuote(quote: success.data!)
+            case let error as ResourceFailure<Quote>:
+                self.showError(error: error.throwable)
+            default:
+                print("Will not be called")
+            }
+        }
         
         loadQuoteInUI(loadFreshQuote: false)
     }
@@ -36,16 +46,19 @@ class ViewController: UIViewController, QuoteContractQuoteView {
     func loadQuoteInUI(loadFreshQuote: Bool) {
         quoteLabel.text = ""
         authorLabel.text = ""
-        presenter.showQuote(getFreshQuote: loadFreshQuote)
+        viewModel.get(freshData: loadFreshQuote)
     }
     
     func setQuote(quote: Quote) {
         quoteLabel.text = quote.quote
         authorLabel.text = quote.author
+        showLoadingSpinner(visibility: false)
     }
     
     func showError(error: KotlinThrowable) {
         print(error)
+        showLoadingSpinner(visibility: false)
+
         
         let alert = UIAlertController(title: nil, message: "Network Error happens", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)

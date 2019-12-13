@@ -57,24 +57,6 @@ kotlin {
                 api "org.amshove.kluent:kluent:$kluent_version"
             }
         }
-        jsMain {
-            dependencies {
-                implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
-
-                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
-                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$kotlinx_serialization_version"
-
-                implementation "io.ktor:ktor-client-js:$ktor_version"
-                implementation "io.ktor:ktor-client-logging-js:$ktor_version"
-                implementation "io.ktor:ktor-client-json-js:$ktor_version"
-                implementation "io.ktor:ktor-client-serialization-js:$ktor_version"
-            }
-        }
-        jsTest {
-            dependencies {
-                implementation "org.jetbrains.kotlin:kotlin-test-js"
-            }
-        }
         jvmMain {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
@@ -96,14 +78,14 @@ kotlin {
                 implementation 'org.jetbrains.kotlin:kotlin-test-junit'
             }
         }
-        commonMobileMain {
+        commonClientMain {
             dependsOn commonMain
         }
-        commonMobileTest {
+        commonClientTest {
             dependsOn commonTest
         }
         androidMain {
-            dependsOn commonMobileMain
+            dependsOn commonClientMain
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
                 
@@ -119,14 +101,14 @@ kotlin {
             }
         }
         androidTest {
-            dependsOn commonMobileTest
+            dependsOn commonClientTest
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-test'
                 implementation 'org.jetbrains.kotlin:kotlin-test-junit'
             }
         }
         iosMain {
-            dependsOn commonMobileMain
+            dependsOn commonClientMain
             dependencies {
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines_version"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serialization_version"
@@ -140,7 +122,27 @@ kotlin {
             }
         }
         iosTest {
+            dependsOn commonClientTest
+        }
+        jsMain {
+            dependsOn commonClientMain
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
 
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$kotlinx_serialization_version"
+
+                implementation "io.ktor:ktor-client-js:$ktor_version"
+                implementation "io.ktor:ktor-client-logging-js:$ktor_version"
+                implementation "io.ktor:ktor-client-json-js:$ktor_version"
+                implementation "io.ktor:ktor-client-serialization-js:$ktor_version"
+            }
+        }
+        jsTest {
+            dependsOn commonClientTest
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-test-js"
+            }
         }
     }
 }
@@ -155,7 +157,7 @@ android {
 }
 
 sqldelight {
-    MyDatabase {
+    QuoteDatabase {
         packageName = "de.kneke.common.db"
         sourceFolders = ["sqldelight"]
         schemaOutputDirectory = file("src/commonMain/sqldelight/databases")

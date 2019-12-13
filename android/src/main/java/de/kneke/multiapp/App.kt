@@ -1,16 +1,16 @@
 package de.kneke.multiapp
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
+import de.kneke.common.util.logger.setupLogger
 import de.kneke.common.util.libContext
-import de.kneke.common.util.logger.loggingActive
 
-class App : Application() {
+class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
 
         // Enable multiplatform logging
-        loggingActive = true
+        setupLogger(true, "ANDROID-LOGGER")
 
         // Share context with multiplatform common module
         libContext = this.applicationContext
