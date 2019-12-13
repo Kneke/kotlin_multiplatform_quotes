@@ -27,6 +27,12 @@ kotlin {
         }
     }
     sourceSets {
+        all {
+            dependencies {
+                implementation "org.kodein.di:kodein-di-core:$kodein_di_version"
+                implementation "org.kodein.di:kodein-di-erased:$kodein_di_version"
+            }
+        }
         commonMain {
             dependencies {
                 api 'org.jetbrains.kotlin:kotlin-stdlib-common'
@@ -153,6 +159,13 @@ sqldelight {
         packageName = "de.kneke.common.db"
         sourceFolders = ["sqldelight"]
         schemaOutputDirectory = file("src/commonMain/sqldelight/databases")
+    }
+}
+
+// Fix Bug for "Cannot inline bytecode built with JVM target 1.8 ..."
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
