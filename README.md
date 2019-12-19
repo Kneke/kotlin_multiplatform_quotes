@@ -55,7 +55,11 @@ To show content without the need of a local webservice currently the api endpoin
 
 ### TO-DO
 
+- Dependencie injection for mobile and js 
+- change viewmodel to real viewmodel which has values where the UI can react on
+- DatabaseHelper saver -> try catch and js return  https://github.com/jarroyoesp/KotlinMultiPlatform/blob/master/SharedCode/src/commonMain/kotlin/com/jarroyo/sharedcode/source/disk/SQLDriver.kt
+- Ktor client close function
+- Add build step for react and clean script for all build folders
+
+- Couroutines provider ?!
 - Write some unit tests
-- Clean up architecture
-- Couroutines provider
-- Flow integration

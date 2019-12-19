@@ -3,29 +3,36 @@ apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.android.library'
 apply plugin: 'com.squareup.sqldelight'
 
+group 'de.kneke'
+version '1.0.0'
+
 kotlin {
-    targets {
-        jvm()
-        android()
-        js().compilations.all {
-            kotlinOptions {
-                metaInfo = true
-                sourceMap = true
-                moduleKind = 'umd'
-            }
+    jvm()
+    android()
+    js {
+        browser {
         }
-        // This preset is for iPhone emulator
-        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") ? presets.iosArm64 : presets.iosX64
-        fromPreset(iOSTarget, 'ios') {
+    }
+    if (System.getenv('SDK_NAME')?.startsWith("iphoneos")) {
+        iosArm64("ios") {
             binaries.framework {
                 baseName = "main"
-
+            }
+            compilations.each {
+                it.kotlinOptions.freeCompilerArgs.add("-Xobjc-generics")
+            }
+        }
+    } else {
+        iosX64("ios") {
+            binaries.framework {
+                baseName = "main"
             }
             compilations.each {
                 it.kotlinOptions.freeCompilerArgs.add("-Xobjc-generics")
             }
         }
     }
+
     sourceSets {
         all {
             dependencies {
@@ -88,7 +95,7 @@ kotlin {
             dependsOn commonClientMain
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
-                
+
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
                 implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
@@ -192,7 +199,7 @@ task packForXCode(type: Sync) {
 
 tasks.build.dependsOn packForXCode
 
-
+/*
 def webFolder = new File(project.buildDir, "../../web/out/js/lib")
 def jsCompilations = kotlin.targets.js.compilations
 
@@ -212,3 +219,4 @@ task populateWebFolder(dependsOn: [jsMainClasses]) {
 }
 
 jsJar.dependsOn(populateWebFolder)
+*/

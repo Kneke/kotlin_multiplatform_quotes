@@ -8,8 +8,7 @@ import de.kneke.common.viewmodel.ViewModel
 import de.kneke.common.viewmodel.ViewModelObservable
 import kotlinx.coroutines.*
 
-class QuoteViewModel(private val quoteRepo: Repo<Resource<Quote>>):
-    ViewModel<Resource<Quote>> {
+class QuoteViewModel(private val quoteRepo: Repo<Resource<Quote>>): ViewModel<Resource<Quote>> {
 
     private var quoteJob: Job? = null
 

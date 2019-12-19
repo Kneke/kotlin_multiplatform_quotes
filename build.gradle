@@ -1,5 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+group 'de.kneke'
+version '1.0.0'
+
 buildscript {
     repositories {
         google()
@@ -27,6 +30,3 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}

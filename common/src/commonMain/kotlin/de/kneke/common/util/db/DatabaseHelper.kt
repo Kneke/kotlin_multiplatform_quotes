@@ -7,6 +7,5 @@ expect fun getDriver(dbName: String): SqlDriver
 
 class DatabaseHelper(dbName: String) {
     private val driver: SqlDriver = getDriver(dbName)
-    val database: QuoteDatabase =
-        QuoteDatabase(driver)
+    val database: QuoteDatabase = QuoteDatabase(driver)
 }

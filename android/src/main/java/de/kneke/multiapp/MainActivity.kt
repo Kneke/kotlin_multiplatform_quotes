@@ -9,7 +9,7 @@ import de.kneke.common.viewmodel.quote.QuoteViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import de.kneke.common.data.Quote
 import de.kneke.common.data.Resource
-import quoteViewModel
+import de.kneke.common.quoteViewModel
 
 class MainActivity : AppCompatActivity() {
 

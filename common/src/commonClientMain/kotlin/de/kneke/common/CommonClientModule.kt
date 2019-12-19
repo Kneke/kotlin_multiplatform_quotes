@@ -1,3 +1,5 @@
+package de.kneke.common
+
 import de.kneke.common.api.Api
 import de.kneke.common.api.http.KtorHttpClient
 import de.kneke.common.api.quote.QuoteApi
