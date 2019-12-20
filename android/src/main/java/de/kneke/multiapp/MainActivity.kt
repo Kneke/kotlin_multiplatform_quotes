@@ -6,9 +6,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import de.kneke.common.viewmodel.quote.QuoteViewModel
+import de.kneke.common.viewmodel.quote.QuoteModel
 import kotlinx.android.synthetic.main.activity_main.*
-import de.kneke.common.data.Quote
-import de.kneke.common.data.Resource
 import de.kneke.common.injectClient
 
 class MainActivity : AppCompatActivity() {
@@ -19,17 +18,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel.quoteResource.watch {
-            when(it) {
-                is Resource.Loading -> showLoadingSpinner(true)
-                is Resource.Success -> setQuote(it.data)
-                is Resource.NetworkError -> showError(it.throwable)
-            }
-        }
-
-        nextButton.setOnClickListener { loadQuoteInUI(true) }
-
-        loadQuoteInUI()
+        viewModel.quoteModel.watch { updateView(it!!) }
+        nextButton.setOnClickListener { loadQuote(true) }
+        loadQuote()
     }
 
     override fun onPause() {
@@ -37,25 +28,25 @@ class MainActivity : AppCompatActivity() {
         viewModel.clear()
     }
 
-    private fun loadQuoteInUI(loadNewQuote: Boolean = false) {
-        quoteText.text = ""
-        authorText.text = ""
+    private fun loadQuote(loadNewQuote: Boolean = false) {
         viewModel.get(loadNewQuote)
     }
 
-    private fun setQuote(quote: Quote) {
-        quoteText.text = quote.quote
-        authorText.text = quote.author
-        showLoadingSpinner(false)
+    private fun updateView(quoteModel: QuoteModel) {
+        showLoadingSpinner(quoteModel.loading)
+
+        quoteModel.quote?.let {
+            quoteText.text = it.quote
+            authorText.text = it.author
+        }
+
+        quoteModel.error?.let {
+            Log.e("MainActivity", it.message)
+            Toast.makeText(this, "Network Error happens", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun showError(error: Throwable) {
-        showLoadingSpinner(false)
-        Log.e("MainActivity", error.message)
-        Toast.makeText(this, "Network Error happens", Toast.LENGTH_SHORT ).show()
-    }
-
-    fun showLoadingSpinner(visibility: Boolean) {
+    private fun showLoadingSpinner(visibility: Boolean) {
         loadingSpinner.visibility = if (visibility) View.VISIBLE else View.GONE
     }
 }

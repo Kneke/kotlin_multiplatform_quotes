@@ -55,11 +55,11 @@ To show content without the need of a local webservice currently the api endpoin
 
 ### TO-DO
 
-- change viewmodel to real viewmodel which has values where the UI can react on
 - DatabaseHelper saver -> try catch and js return  https://github.com/jarroyoesp/KotlinMultiPlatform/blob/master/SharedCode/src/commonMain/kotlin/com/jarroyo/sharedcode/source/disk/SQLDriver.kt
 - Error handler
 - Ktor client close function
 - clean script for all build folders
+- android view binding, ios swiftui
 
 - Couroutines provider ?!
 - Write some unit tests

@@ -12,23 +12,29 @@ class QuoteViewModel(private val quoteRepo: Repo<Resource<Quote>>): ViewModel<Re
 
     private var quoteJob: Job? = null
 
-    val quoteResource = ViewModelObservable<Resource<Quote>>()
+    val quoteModel = ViewModelObservable<QuoteModel>()
 
     fun get(freshData: Boolean) {
         quoteJob = CoroutineScope(Dispatcher.main).launch {
 
-            quoteResource.value = Resource.Loading()
+            quoteModel.value = QuoteModel(true, Quote(0, "", "", ""))
 
-            val quote = withContext(Dispatcher.io) {
+            val quoteResource = withContext(Dispatcher.io) {
                 quoteRepo.get(freshData)
             }
 
-            quoteResource.value = quote
+            when(quoteResource) {
+                is Resource.Loading -> quoteModel.value = QuoteModel(true, Quote(0, "", "", ""))
+                is Resource.Success -> quoteModel.value = QuoteModel(false, quoteResource.data)
+                is Resource.NetworkError -> quoteModel.value = QuoteModel(false, null, quoteResource.throwable)
+            }
         }
     }
 
     override fun clear() {
-        quoteResource.unwatch()
+        quoteModel.unwatch()
         quoteJob?.cancel()
     }
+
+
 }

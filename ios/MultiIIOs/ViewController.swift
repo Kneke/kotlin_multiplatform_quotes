@@ -21,21 +21,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-                
-        viewModel.quoteResource.watch { quoteRes in
-            switch quoteRes {
-            case is ResourceLoading<Quote>:
-                self.showLoadingSpinner(visibility: true)
-            case let success as ResourceSuccess<Quote>:
-                self.setQuote(quote: success.data!)
-            case let error as ResourceFailure<Quote>:
-                self.showError(error: error.throwable)
-            default:
-                print("Will not be called")
-            }
-        }
         
+        viewModel.quoteModel.watch(block: updateView)
         loadQuoteInUI(loadFreshQuote: false)
     }
     
@@ -44,22 +31,28 @@ class ViewController: UIViewController {
     }
     
     func loadQuoteInUI(loadFreshQuote: Bool) {
-        quoteLabel.text = ""
-        authorLabel.text = ""
         viewModel.get(freshData: loadFreshQuote)
     }
     
-    func setQuote(quote: Quote) {
-        quoteLabel.text = quote.quote
-        authorLabel.text = quote.author
-        showLoadingSpinner(visibility: false)
+    func updateView(quoteModel: QuoteModel?) {
+        guard let quoteModel = quoteModel else { return }
+        
+        showLoadingSpinner(visibility: quoteModel.loading)
+        
+        if let quote = quoteModel.quote {
+            quoteLabel.text = quote.quote
+            authorLabel.text = quote.author
+        }
+        
+        if let error = quoteModel.error {
+            showError(error: error)
+        }
     }
     
     func showError(error: KotlinThrowable) {
         print(error)
         showLoadingSpinner(visibility: false)
 
-        
         let alert = UIAlertController(title: nil, message: "Network Error happens", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
@@ -67,7 +60,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func showLoadingSpinner(visibility: Bool) {
+    func showLoadingSpinner(visibility: Bool = false) {
         if (visibility) { loadingSpinner.startAnimating() }
         else { loadingSpinner.stopAnimating() }
     }

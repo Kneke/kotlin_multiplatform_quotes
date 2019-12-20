@@ -1,43 +1,42 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Container, Dimmer, Loader} from 'semantic-ui-react';
+import {Button, Container, Dimmer, Loader, Placeholder} from 'semantic-ui-react';
 import * as main from 'kotlinmultiapp/packages/kotlinmultiapp-common'
-import './QuotePage.css';
+import './QuotePage.scss';
 
 function QuotePage() {
 
-    const [quote, setQuote] = useState(null);
-
+    const [quoteModel, setQuoteModel] = useState({loading: true});
     let viewModel = main.de.kneke.common.injectJs.quoteViewModel();
 
     useEffect(() => {
-        function receiveNewQuote(resource) {
-            setQuote(resource.data);
+        function receiveNewQuote(newQuoteModel) {
+            setQuoteModel(newQuoteModel);
         }
 
-        viewModel.quoteResource.watch_qlkmfe$(receiveNewQuote);
+        viewModel.quoteModel.watch_qlkmfe$(receiveNewQuote);
         loadNextQuote();
 
         return function cleanup() {
-            viewModel.quoteResource.unwatch();
+            viewModel.quoteModel.unwatch();
         };
-    },[]);
+    }, []);
 
     function loadNextQuote() {
         viewModel.get_6taknv$(true);
     }
-
     return (
         <div className="quote-page">
-            {quote == null ?
-                <Dimmer active inverted>
-                    <Loader inverted>Loading</Loader>
-                </Dimmer>
-                :
-                <Container text>
-                    <p>{quote.quote}</p>
-                    <p>{quote.author}</p>
-                    <Button onClick={loadNextQuote}>Next</Button>
-                </Container>
+            {quoteModel.loading &&
+            <Dimmer active inverted>
+                <Loader inverted>Loading</Loader>
+            </Dimmer>
+            }
+            {quoteModel.quote &&
+            <Container text textAlign='center'>
+                <p>{quoteModel.quote.quote}</p>
+                <p>{quoteModel.quote.author}</p>
+                <Button primary className="quote-button" onClick={loadNextQuote}>Next</Button>
+            </Container>
             }
         </div>
     );
