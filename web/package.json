@@ -20,6 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "updateCommon": "cd .. && ./gradlew common:jsJar && cd web && yarn remove kotlinmultiapp && yarn add ../build/js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

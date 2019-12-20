@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var output: UILabel!
 
-    var viewModel: QuoteViewModel = CommonClientModuleKt.quoteViewModel()
+    var viewModel: QuoteViewModel = ClientModuleKt.injectClient.quoteViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -5,14 +5,9 @@ import './QuotePage.css';
 
 function QuotePage() {
 
-    const [quote, setQuote] = useState({
-        "quote": "Good Source Code makes me horny.",
-        "id": 45,
-        "author": "Christoph Knetschke",
-        "permalink": "http://quotes.stormconsultancy.co.uk/quotes/45"
-    },[]);
+    const [quote, setQuote] = useState(null);
 
-    let viewModel = main.de.kneke.common.quoteViewModel();
+    let viewModel = main.de.kneke.common.injectJs.quoteViewModel();
 
     useEffect(() => {
         function receiveNewQuote(resource) {
@@ -20,6 +15,7 @@ function QuotePage() {
         }
 
         viewModel.quoteResource.watch_qlkmfe$(receiveNewQuote);
+        loadNextQuote();
 
         return function cleanup() {
             viewModel.quoteResource.unwatch();

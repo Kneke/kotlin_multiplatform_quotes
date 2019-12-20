@@ -9,11 +9,11 @@ import de.kneke.common.viewmodel.quote.QuoteViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import de.kneke.common.data.Quote
 import de.kneke.common.data.Resource
-import de.kneke.common.quoteViewModel
+import de.kneke.common.injectClient
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: QuoteViewModel = quoteViewModel()
+    private val viewModel: QuoteViewModel = injectClient.quoteViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
