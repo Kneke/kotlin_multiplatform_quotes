@@ -13,11 +13,10 @@ kotlin {
         browser {
         }
     }
-    def iosFrameworkName = 'main'
     if (System.getenv('SDK_NAME')?.startsWith("iphoneos")) {
         iosArm64("ios") {
             binaries.framework {
-                baseName = iosFrameworkName
+                baseName = "main"
             }
             compilations.each {
                 it.kotlinOptions.freeCompilerArgs.add("-Xobjc-generics")
@@ -26,7 +25,7 @@ kotlin {
     } else {
         iosX64("ios") {
             binaries.framework {
-                baseName = iosFrameworkName
+                baseName = "main"
             }
             compilations.each {
                 it.kotlinOptions.freeCompilerArgs.add("-Xobjc-generics")
