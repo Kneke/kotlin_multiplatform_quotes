@@ -5,7 +5,7 @@ import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import de.kneke.common.db.QuoteDatabase
 
 actual fun getDriver(dbName: String): SqlDriver  {
-    val driver = JdbcSqliteDriver(dbName)
+    val driver = JdbcSqliteDriver("jdbc:sqlite:$dbName")
     QuoteDatabase.Schema.create(driver) // FIXME Maybe not necessary
     return driver
 }

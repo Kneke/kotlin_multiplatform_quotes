@@ -55,11 +55,11 @@ To show content without the need of a local webservice currently the api endpoin
 
 ### TO-DO
 
-- DatabaseHelper saver -> try catch and js return  https://github.com/jarroyoesp/KotlinMultiPlatform/blob/master/SharedCode/src/commonMain/kotlin/com/jarroyo/sharedcode/source/disk/SQLDriver.kt
-- Error handler
-- Ktor client close function
-- clean script for all build folders
 - android view binding, ios swiftui
-
-- Couroutines provider ?!
+- Ktor client close function
+- Firebase ad support
+- Lottie animations
+- UserPrefs
+- Error handler
+- clean script for all build folders
 - Write some unit tests
