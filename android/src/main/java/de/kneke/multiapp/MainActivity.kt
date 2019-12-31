@@ -47,6 +47,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLoadingSpinner(visibility: Boolean) {
-        loadingSpinner.visibility = if (visibility) View.VISIBLE else View.GONE
+        loadingAnimation.visibility = if (visibility) View.VISIBLE else View.GONE
     }
 }

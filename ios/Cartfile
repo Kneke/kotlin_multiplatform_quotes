@@ -1,2 +1,1 @@
-github "Daltron/NotificationBanner" "master"
-github "SwiftyJSON/SwiftyJSON" ~> 4.0
+github "airbnb/lottie-ios" "master"

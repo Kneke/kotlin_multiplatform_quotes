@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Container, Dimmer, Loader, Placeholder} from 'semantic-ui-react';
-import * as main from 'kotlinmultiapp/packages/kotlinmultiapp-common'
+import {Button, Container, Dimmer} from 'semantic-ui-react';
+import Lottie from 'react-lottie';
+import * as loadingAnimation from '../assets/loading_message_lottie';
+import * as main from 'kotlinmultiapp/packages/kotlinmultiapp-common';
 import './QuotePage.scss';
 
 function QuotePage() {
 
-    const [quoteModel, setQuoteModel] = useState({loading: true});
     let viewModel = main.de.kneke.common.injectJs.quoteViewModel();
+
+    const [quoteModel, setQuoteModel] = useState({loading: true});
 
     useEffect(() => {
         function receiveNewQuote(newQuoteModel) {
@@ -24,11 +27,17 @@ function QuotePage() {
     function loadNextQuote() {
         viewModel.get_6taknv$(true);
     }
+
     return (
         <div className="quote-page">
             {quoteModel.loading &&
             <Dimmer active inverted>
-                <Loader inverted>Loading</Loader>
+                <Lottie options={{
+                    loop: true,
+                    autoplay: true,
+                    animationData: loadingAnimation.default,
+                    rendererSettings: {preserveAspectRatio: 'xMidYMid slice'}
+                }}/>
             </Dimmer>
             }
             {quoteModel.quote &&

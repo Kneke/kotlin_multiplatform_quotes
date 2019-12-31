@@ -8,19 +8,23 @@
 
 import UIKit
 import main
+import Lottie
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var quoteLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
-    @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
+    @IBOutlet weak var loadingAnimation: AnimationView!
     @IBOutlet weak var nextButton: UIButton!
-    @IBOutlet weak var output: UILabel!
-
+    
     var viewModel: QuoteViewModel = ClientModuleKt.injectClient.quoteViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadingAnimation.animation = Animation.named("loading_message_lottie")
+        loadingAnimation.contentMode = .scaleAspectFit
+        loadingAnimation.loopMode = .loop
         
         viewModel.quoteModel.watch(block: updateView)
         loadQuoteInUI(loadFreshQuote: false)
@@ -61,7 +65,12 @@ class ViewController: UIViewController {
     }
     
     func showLoadingSpinner(visibility: Bool = false) {
-        if (visibility) { loadingSpinner.startAnimating() }
-        else { loadingSpinner.stopAnimating() }
+        if (visibility) {
+            loadingAnimation.isHidden = false
+            loadingAnimation.play()
+        } else {
+            loadingAnimation.isHidden = true
+            loadingAnimation.stop()
+        }
     }
 }

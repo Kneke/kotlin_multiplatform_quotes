@@ -55,11 +55,9 @@ To show content without the need of a local webservice currently the api endpoin
 
 ### TO-DO
 
-- android view binding, ios swiftui
 - Lottie animations
 - Firebase ad support
 - Ktor client close function
 - UserPrefs
-- Error handler
 - clean script for all build folders
 - Write some unit tests
