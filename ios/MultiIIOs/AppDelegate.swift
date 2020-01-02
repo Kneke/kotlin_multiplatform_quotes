@@ -8,6 +8,8 @@
 
 import UIKit
 import main
+import Firebase
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Enable multiplatform logging
         LoggerKt.loggingActive = true
+        
+        // Enable Firebase
+        FirebaseApp.configure()
+        // Initialize the Google Mobile Ads SDK.
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         return true
     }

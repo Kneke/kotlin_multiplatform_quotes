@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "52474849196",
+    "firebase_url": "https://developerquote.firebaseio.com",
+    "project_id": "developerquote",
+    "storage_bucket": "developerquote.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52474849196:android:e21a6a340e141ee8703c09",
+        "android_client_info": {
+          "package_name": "de.kneke.multiapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52474849196-v0a5j5bqm29q4cjae6nn1gjgtrfhq6ab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTitnKMpCm276YGJdk0Jp06OPR41zhFKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52474849196-v0a5j5bqm29q4cjae6nn1gjgtrfhq6ab.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

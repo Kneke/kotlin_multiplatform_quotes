@@ -18,7 +18,7 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quote" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mur-UN-ZVV">
                                 <rect key="frame" x="50" y="323.5" width="275" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -29,31 +29,42 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iqa-wy-KvM">
-                                <rect key="frame" x="171.5" y="587" width="32" height="30"/>
+                                <rect key="frame" x="171.5" y="563" width="32" height="30"/>
                                 <state key="normal" title="Next"/>
                                 <connections>
                                     <action selector="onNextButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CVn-up-MQx"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7xA-Rw-D3p" customClass="AnimationView" customModule="Lottie">
-                                <rect key="frame" x="80" y="280" width="215" height="128"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7xA-Rw-D3p" customClass="AnimationView" customModule="Lottie">
+                                <rect key="frame" x="80" y="280" width="215" height="107"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lo1-Ey-Q0r" customClass="GADBannerView">
+                                <rect key="frame" x="27.5" y="617" width="320" height="50"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="BSV-8a-Qvc"/>
+                                    <constraint firstAttribute="height" constant="50" id="IGl-me-VGH"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Mur-UN-ZVV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="0YB-CC-i3b"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="lo1-Ey-Q0r" secondAttribute="bottom" id="8sh-54-sRa"/>
                             <constraint firstItem="1mL-k3-X1j" firstAttribute="top" secondItem="Mur-UN-ZVV" secondAttribute="bottom" constant="30" id="AWD-4A-rmC"/>
                             <constraint firstItem="7xA-Rw-D3p" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="BEg-O6-0lk"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Iqa-wy-KvM" secondAttribute="bottom" constant="50" id="D0K-Gz-p2T"/>
                             <constraint firstItem="Mur-UN-ZVV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-50" id="LqL-vj-Rpt"/>
+                            <constraint firstItem="lo1-Ey-Q0r" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OH4-fa-PnM"/>
                             <constraint firstItem="Iqa-wy-KvM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QlR-Nm-RI0"/>
+                            <constraint firstItem="lo1-Ey-Q0r" firstAttribute="top" secondItem="Iqa-wy-KvM" secondAttribute="bottom" constant="24" id="S6l-tQ-ffY"/>
                             <constraint firstItem="1mL-k3-X1j" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ua1-Qd-S9E"/>
                             <constraint firstItem="7xA-Rw-D3p" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="d4j-sw-gTh"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7xA-Rw-D3p" secondAttribute="trailing" constant="80" id="eLG-kh-04W"/>
+                            <constraint firstItem="7xA-Rw-D3p" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="280" id="ere-Gj-9Re"/>
                             <constraint firstItem="Mur-UN-ZVV" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="kLM-fn-Te9"/>
                             <constraint firstItem="Mur-UN-ZVV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="pD8-4k-tU1"/>
                             <constraint firstItem="7xA-Rw-D3p" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="80" id="qF0-Op-dMO"/>
@@ -61,6 +72,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="adBannerView" destination="lo1-Ey-Q0r" id="k0z-N9-myy"/>
                         <outlet property="authorLabel" destination="1mL-k3-X1j" id="vpP-uz-cf9"/>
                         <outlet property="loadingAnimation" destination="7xA-Rw-D3p" id="msA-Rd-vDr"/>
                         <outlet property="nextButton" destination="Iqa-wy-KvM" id="n8f-Pa-cv5"/>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.google.android.gms.ads.AdRequest
 import de.kneke.common.viewmodel.quote.QuoteViewModel
 import de.kneke.common.viewmodel.quote.QuoteModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        adBannerBottom.loadAd(AdRequest.Builder().build())
 
         viewModel.quoteModel.watch { updateView(it!!) }
         nextButton.setOnClickListener { loadQuote(true) }

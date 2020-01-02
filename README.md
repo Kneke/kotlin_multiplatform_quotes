@@ -55,7 +55,6 @@ To show content without the need of a local webservice currently the api endpoin
 
 ### TO-DO
 
-- Lottie animations
 - Firebase ad support
 - Ktor client close function
 - UserPrefs

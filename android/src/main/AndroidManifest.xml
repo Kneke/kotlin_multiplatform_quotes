@@ -13,6 +13,11 @@
             android:supportsRtl="true"
             android:usesCleartextTraffic="true"
             android:theme="@style/AppTheme">
+
+        <meta-data
+                android:name="com.google.android.gms.ads.APPLICATION_ID"
+                android:value="ca-app-pub-8543132817382656~2127824293"/>
+
         <activity android:name=".MainActivity"
                   android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

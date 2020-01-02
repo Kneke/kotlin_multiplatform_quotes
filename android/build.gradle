@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion android_compile_sdk_version as Integer
@@ -28,10 +29,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':common')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:multidex:$android_multidex"
+
     implementation "androidx.appcompat:appcompat:$androidx_version"
     implementation "com.android.support.constraint:constraint-layout:$android_constraint_layout"
-    implementation "com.android.support:multidex:$android_multidex"
+
     implementation "com.airbnb.android:lottie:$lottie_version"
+
+    implementation "com.google.firebase:firebase-analytics:$firebase_analytics_version"
+    implementation "com.google.firebase:firebase-ads:$firebase_admob_version"
 
     testImplementation "junit:junit:$junit_version"
 }
