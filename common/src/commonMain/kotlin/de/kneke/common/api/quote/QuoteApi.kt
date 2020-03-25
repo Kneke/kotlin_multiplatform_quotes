@@ -2,7 +2,7 @@ package de.kneke.common.api.quote
 
 import de.kneke.common.api.Api
 import de.kneke.common.api.http.KtorHttpClient
-import de.kneke.common.data.Quote
+import de.kneke.common.data.quote.Quote
 import de.kneke.common.util.logger.log
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

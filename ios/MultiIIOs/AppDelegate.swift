@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // Enable multiplatform logging
-        LoggerKt.loggingActive = true
+        LoggerKt.setupLogger(showLogs: true, loggerIdentifier: "IOS-LOGGER")
         
         // Enable Firebase
         FirebaseApp.configure()

@@ -32,7 +32,7 @@ function QuotePage() {
         <div className="quote-page">
             {quoteModel.loading &&
             <Dimmer active inverted>
-                <Lottie options={{
+                <Lottie height={200} width={200} options={{
                     loop: true,
                     autoplay: true,
                     animationData: loadingAnimation.default,

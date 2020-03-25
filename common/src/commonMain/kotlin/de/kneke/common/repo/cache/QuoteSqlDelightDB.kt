@@ -1,12 +1,11 @@
 package de.kneke.common.repo.cache
 
-import de.kneke.common.data.Quote
+import de.kneke.common.data.quote.Quote
 import de.kneke.common.db.QuoteDbRecord
 import de.kneke.common.db.QuoteQueries
 import de.kneke.common.util.logger.log
 
-class QuoteSqlDelightDB(private val quoteQueries: QuoteQueries) :
-    Cache<Quote> {
+class QuoteSqlDelightDB(private val quoteQueries: QuoteQueries) : Cache<Quote> {
 
     override fun save(data: Quote) {
         try {
@@ -22,7 +21,8 @@ class QuoteSqlDelightDB(private val quoteQueries: QuoteQueries) :
 
     override fun load(index: Int): Quote? {
         return try {
-            quoteQueries.selectRandom().executeAsOne().cast()
+            if (index >= 0) quoteQueries.selectById(id = index.toLong()).executeAsOne().cast()
+            else quoteQueries.selectRandom().executeAsOne().cast()
         } catch (e: Exception) {
             log(e,"Can not load Record from DB")
             return null
@@ -36,6 +36,10 @@ class QuoteSqlDelightDB(private val quoteQueries: QuoteQueries) :
             log(e,"Can not load Record from DB")
             return null
         }
+    }
+
+    override fun size(): Int {
+        return quoteQueries.selectAll().executeAsList().size;
     }
 
     override fun clear() {

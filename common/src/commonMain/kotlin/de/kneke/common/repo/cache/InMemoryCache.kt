@@ -13,7 +13,7 @@ class InMemoryCache<T>: Cache<T> {
     }
 
     override fun load(index: Int): T? {
-        if (cacheList.isEmpty()) return null
+        if (cacheList.isEmpty() || cacheList.lastIndex < index) return null
         if (index >= 0) return cacheList[index]
         return cacheList[cacheList.lastIndex]
     }
@@ -22,8 +22,11 @@ class InMemoryCache<T>: Cache<T> {
         return cacheList
     }
 
+    override fun size(): Int {
+        return cacheList.size
+    }
+
     override fun clear() {
         cacheList.clear()
     }
-
 }

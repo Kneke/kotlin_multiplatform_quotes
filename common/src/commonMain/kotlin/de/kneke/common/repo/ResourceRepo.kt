@@ -9,23 +9,23 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 abstract class ResourceRepo<T>(
-    private val api: Api<T>,
+    private val memoryCache: Cache<T>?,
     private val database: Cache<T>?,
-    private val memoryCache: Cache<T>?
+    private val api: Api<T>?
 ) : Repo<Resource<T>> {
 
-    override suspend fun get(fromNetwork: Boolean): Resource<T> {
+    override suspend fun get(fromNetwork: Boolean, index: Int): Resource<T> {
         // Directly request new data from server
         if (fromNetwork) return loadFromApi()
 
         // Get data from cache
-        memoryCache?.load()?.let {
+        memoryCache?.load(index)?.let {
             log("Get Data from Cache")
             return Resource.Success(it)
         }
 
         // Get data from DB
-        database?.load()?.let {
+        database?.load(index)?.let {
             log("Get Data from DB")
             saveInMemoryCache(it)
             return Resource.Success(it)
@@ -36,7 +36,7 @@ abstract class ResourceRepo<T>(
     }
 
     open suspend fun loadFromApi(): Resource<T> {
-        api.load()?.let {
+        api?.load()?.let {
             log("Get Data from API")
             saveReceivedDataInDB(it)
             return Resource.Success(it)

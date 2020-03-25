@@ -1,1 +1,4 @@
 /build
+
+# Client build output
+/src/main/resources/client/*
