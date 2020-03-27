@@ -1,4 +1,4 @@
-package de.kneke.common.data
+package de.kneke.common.data.quote
 
 import kotlinx.serialization.Serializable
 

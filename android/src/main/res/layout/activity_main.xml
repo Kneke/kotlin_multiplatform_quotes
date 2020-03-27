@@ -35,20 +35,17 @@
 
     <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/loadingAnimation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="200dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="200dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
-            app:lottie_rawRes="@raw/loading_message_lottie"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            android:visibility="gone"/>
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:lottie_autoPlay="true"
+            app:lottie_loop="true" app:lottie_rawRes="@raw/loading_message_lottie"/>
 
     <Button
             android:id="@+id/nextButton"

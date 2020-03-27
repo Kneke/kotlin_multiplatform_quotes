@@ -164,7 +164,7 @@ android {
 }
 
 sqldelight {
-    QuoteDatabase {
+    MyDatabase {
         packageName = "de.kneke.common.db"
         sourceFolders = ["sqldelight"]
         schemaOutputDirectory = file("src/commonMain/sqldelight/databases")

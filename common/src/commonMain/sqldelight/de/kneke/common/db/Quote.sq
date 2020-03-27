@@ -1,5 +1,5 @@
 CREATE TABLE quoteDbRecord (
-  id INTEGER NOT NULL,
+  id INTEGER PRIMARY KEY,
   quote TEXT NOT NULL,
   author TEXT NOT NULL,
   permalink TEXT
@@ -8,8 +8,12 @@ CREATE TABLE quoteDbRecord (
 CREATE INDEX quote_id ON quoteDbRecord(id);
 
 insert:
-INSERT INTO quoteDbRecord(id, quote, author, permalink)
+INSERT OR IGNORE INTO quoteDbRecord(id, quote, author, permalink)
 VALUES (?, ?, ?, ?);
+
+selectById:
+SELECT * FROM quoteDbRecord
+WHERE id = ?;
 
 selectAll:
 SELECT * FROM quoteDbRecord;
