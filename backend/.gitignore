@@ -2,3 +2,6 @@
 
 # Client build output
 /src/main/resources/client/*
+
+# DB
+test.db

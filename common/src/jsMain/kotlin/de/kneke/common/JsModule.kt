@@ -9,6 +9,8 @@ import de.kneke.common.repo.quote.QuoteRepo
 import de.kneke.common.repo.Repo
 import de.kneke.common.repo.cache.Cache
 import de.kneke.common.repo.cache.InMemoryCache
+import de.kneke.common.setting.ApplicationSettings
+import de.kneke.common.setting.Settings
 import de.kneke.common.viewmodel.ViewModel
 import de.kneke.common.viewmodel.quote.QuoteViewModel
 import org.kodein.di.Kodein
@@ -20,8 +22,10 @@ class JsModule : ClientModule() {
         constant("server_url") with "http://localhost:3001/api/v1/quote/random"
 
         bind<KtorHttpClient>() with provider { KtorHttpClient() }
-        bind<Api<Quote>>() with provider { QuoteApi(instance(), instance("server_url")) }
+        bind<Settings>() with singleton { ApplicationSettings() }
+        /* QUOTE */
         bind<Cache<Quote>>("MEMORY") with singleton { InMemoryCache<Quote>() }
+        bind<Api<Quote>>() with provider { QuoteApi(instance(), instance("server_url")) }
         bind<Repo<Resource<Quote>>>() with singleton {
             QuoteRepo(instance("MEMORY"), null, instance())
         }

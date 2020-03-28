@@ -5,6 +5,8 @@ import de.kneke.common.repo.cache.Cache
 import de.kneke.common.repo.cache.InMemoryCache
 import de.kneke.common.repo.cache.QuoteSqlDelightDB
 import de.kneke.common.repo.quote.QuoteRepo
+import de.kneke.common.setting.ApplicationSettings
+import de.kneke.common.setting.Settings
 import de.kneke.common.util.db.DatabaseHelper
 import handler.quote.QuoteHandler
 import loader.QuoteLoader
@@ -15,6 +17,8 @@ import org.kodein.di.generic.singleton
 import org.kodein.di.generic.with
 
 val injector = Kodein {
+    bind<Settings>() with singleton { ApplicationSettings() }
+    /* QUOTE */
     val localQuoteList = QuoteLoader().getQuotesFromResources()
     constant("NUMBER_OF_QUOTES") with localQuoteList.size
     bind<Cache<Quote>>("IN_MEMORY") with singleton { InMemoryCache<Quote>() }

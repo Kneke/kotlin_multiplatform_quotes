@@ -5,14 +5,17 @@ import de.kneke.common.data.Resource
 import de.kneke.common.repo.cache.Cache
 import de.kneke.common.util.dispatcher.Dispatcher
 import de.kneke.common.util.logger.log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 abstract class ResourceRepo<T>(
     private val memoryCache: Cache<T>?,
     private val database: Cache<T>?,
     private val api: Api<T>?
 ) : Repo<Resource<T>> {
+
+    val mutex = Mutex()
 
     override suspend fun get(fromNetwork: Boolean, index: Int): Resource<T> {
         // Directly request new data from server
@@ -50,8 +53,10 @@ abstract class ResourceRepo<T>(
 
     open fun saveReceivedDataInDB(data: T) {
         CoroutineScope(Dispatcher.io).launch {
-            database?.save(data)
-            saveInMemoryCache(data)
+            mutex.withLock {
+                database?.save(data)
+                saveInMemoryCache(data)
+            }
         }
     }
 }

@@ -79,6 +79,6 @@ To show content without the need of a local webservice currently the api endpoin
 
 ### TO-DO
 
-- UserPrefs
 - Ktor client close function
+- Clean architecture use cases
 - Write some unit tests
