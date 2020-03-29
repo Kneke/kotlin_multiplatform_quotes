@@ -1,7 +1,7 @@
 package de.kneke.common
 
 import de.kneke.common.api.Api
-import de.kneke.common.api.http.KtorHttpClient
+import de.kneke.common.api.http.HttpClient
 import de.kneke.common.api.quote.QuoteApi
 import de.kneke.common.data.quote.Quote
 import de.kneke.common.data.Resource
@@ -23,7 +23,7 @@ open class ClientModule {
     open val kodeinDI = Kodein {
         constant("server_url") with "http://quotes.stormconsultancy.co.uk/random.json"
 
-        bind<KtorHttpClient>() with provider { KtorHttpClient() }
+        bind<HttpClient>() with provider { HttpClient() }
         bind<Settings>() with singleton { ApplicationSettings() }
         /* QUOTE */
         bind<Cache<Quote>>("MEMORY") with singleton { InMemoryCache<Quote>() }

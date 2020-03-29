@@ -1,13 +1,13 @@
 package de.kneke.common.api.quote
 
 import de.kneke.common.api.Api
-import de.kneke.common.api.http.KtorHttpClient
+import de.kneke.common.api.http.HttpClient
 import de.kneke.common.data.quote.Quote
 import de.kneke.common.util.logger.log
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-class QuoteApi(private val client: KtorHttpClient, private val serverUrl: String) : Api<Quote> {
+class QuoteApi(private val client: HttpClient, private val serverUrl: String) : Api<Quote> {
 
     override suspend fun load(): Quote? {
         return try {
@@ -16,6 +16,8 @@ class QuoteApi(private val client: KtorHttpClient, private val serverUrl: String
         } catch (e: Exception) {
             log(e,"Can not load Data from API")
             return null
+        } finally {
+            client.close()
         }
     }
 

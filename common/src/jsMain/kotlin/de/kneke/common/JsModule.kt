@@ -1,7 +1,7 @@
 package de.kneke.common
 
 import de.kneke.common.api.Api
-import de.kneke.common.api.http.KtorHttpClient
+import de.kneke.common.api.http.HttpClient
 import de.kneke.common.api.quote.QuoteApi
 import de.kneke.common.data.quote.Quote
 import de.kneke.common.data.Resource
@@ -21,7 +21,7 @@ class JsModule : ClientModule() {
     override val kodeinDI = Kodein {
         constant("server_url") with "http://localhost:3001/api/v1/quote/random"
 
-        bind<KtorHttpClient>() with provider { KtorHttpClient() }
+        bind<HttpClient>() with provider { HttpClient() }
         bind<Settings>() with singleton { ApplicationSettings() }
         /* QUOTE */
         bind<Cache<Quote>>("MEMORY") with singleton { InMemoryCache<Quote>() }
