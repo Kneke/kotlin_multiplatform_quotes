@@ -8,7 +8,9 @@ version '1.0.0'
 
 kotlin {
     jvm()
-    android()
+    android {
+        publishLibraryVariants("release", "debug")
+    }
     js {
         browser {
         }
