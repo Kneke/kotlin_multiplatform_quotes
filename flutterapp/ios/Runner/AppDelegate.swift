@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import main
 
 enum ChannelName {
     static let quote = "de.kneke.common/quote"
@@ -9,7 +10,7 @@ enum ChannelName {
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate, FlutterStreamHandler {
     
-    //private var viewModel: QuoteViewModel = ClientModuleKt.injectClient.quoteViewModel()
+    private var viewModel: QuoteViewModel = ClientModuleKt.injectClient.quoteViewModel()
     private var eventSink: FlutterEventSink?
     
     override func application(
@@ -26,8 +27,7 @@ enum ChannelName {
             switch call.method {
             case "getQuoteViewModel":
                 let freshData = call.arguments as! Bool
-                //self!.viewModel.get(freshData: freshData)
-                self?.sendNewQuote()
+                self?.viewModel.get(freshData: freshData)
             default:
                 result(FlutterMethodNotImplemented)
             }
@@ -41,24 +41,15 @@ enum ChannelName {
     
     func onListen(withArguments arguments: Any?, eventSink: @escaping FlutterEventSink) -> FlutterError? {
         self.eventSink = eventSink
-        debugPrint("APP DELEGATE ON LISTEN CALL")
-        /*
-         self.viewModel.quoteModel.watch {quoteModel in
-         let quoteJson = quoteModel!.toJsonString()
-         self.eventSink!(quoteJson)
-         }
-         */
+        self.viewModel.quoteModel.watch {quoteModel in
+            let quoteJson = quoteModel!.toJsonString()
+            self.eventSink!(quoteJson)
+        }
         return nil
     }
     
     func onCancel(withArguments arguments: Any?) -> FlutterError? {
         self.eventSink = nil
         return nil
-    }
-    
-    func sendNewQuote() {
-        let randomNub = Int.random(in: 0 ..< 1000)
-        let quoteJsonString = "{\"loading\": false, \"quote\": {\"id\": 1, \"quote\": \"Hello this is test message: \(randomNub)\", \"author\": \"Chris\", \"permalink\": \"\"}, \"error\": \"No ERROR\"}"
-        self.eventSink?(quoteJsonString)
     }
 }

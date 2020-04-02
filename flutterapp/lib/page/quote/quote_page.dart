@@ -44,7 +44,10 @@ class _QuotePageContentState extends State<QuotePageContent> {
 
   void _updateQuoteViewModel(quoteViewModel) {
     setState(() {
+      print('Update View');
+      print(quoteViewModel);
       _currentQuoteModel = QuoteModel.fromJsonString(quoteViewModel);
+      print(_currentQuoteModel.quote.quote);
       _showLoading = false;
     });
   }
