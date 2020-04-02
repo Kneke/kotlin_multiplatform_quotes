@@ -42,8 +42,9 @@ To run android app just run the android directoy as android app
 
 Include a simple viewcontroller that shows quotes from a presenter which is present in the common module.
  
-To build the iOS app just start xcode and open the .xcodeproj from the ios directory. If common module changes since last start it will be rebuild on app start.
+To build the iOS app just start xcode and open the .xcodeproj from the ios directory. Also do a `carthage update` to load all dependencies for the project
 
+If common module changes since last start it will be rebuild on app start.
 Just run the app on an emulator as any other ios app. 
 
 ## Web

@@ -7,8 +7,17 @@ import de.kneke.common.util.dispatcher.Dispatcher
 import de.kneke.common.viewmodel.ViewModel
 import de.kneke.common.viewmodel.ViewModelObservable
 import kotlinx.coroutines.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 
-data class QuoteModel(val loading: Boolean, val quote: Quote? = null, val error: Throwable? = null)
+@Serializable
+data class QuoteModel(val loading: Boolean, val quote: Quote? = null, val error: String? = null) {
+    fun toJsonString(): String {
+        val json = Json(JsonConfiguration.Stable)
+        return json.stringify(serializer(), this)
+    }
+}
 
 class QuoteViewModel(private val quoteRepo: Repo<Resource<Quote>>) : ViewModel<Resource<Quote>> {
 
@@ -31,7 +40,7 @@ class QuoteViewModel(private val quoteRepo: Repo<Resource<Quote>>) : ViewModel<R
                     Quote(0, "", "", "")
                 )
                 is Resource.Success -> quoteModel.value = QuoteModel(false, quoteResource.data)
-                is Resource.NetworkError -> quoteModel.value = QuoteModel(false, null, quoteResource.throwable)
+                is Resource.NetworkError -> quoteModel.value = QuoteModel(false, null, quoteResource.throwable.message)
             }
         }
     }

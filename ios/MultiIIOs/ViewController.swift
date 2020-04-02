@@ -59,7 +59,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func showError(error: KotlinThrowable) {
+    func showError(error: String) {
         print(error)
         showLoadingSpinner(visibility: false)
 

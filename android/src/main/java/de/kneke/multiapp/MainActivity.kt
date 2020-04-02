@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         quoteModel.error?.let {
-            Log.e("MainActivity", it.message)
+            Log.e("MainActivity", it)
             Toast.makeText(this, "Network Error happens", Toast.LENGTH_SHORT).show()
         }
     }

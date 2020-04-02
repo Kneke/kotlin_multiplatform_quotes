@@ -1,0 +1,11 @@
+include: package:effective_dart/analysis_options.yaml
+
+linter:
+  rules:
+    public_member_api_docs: false
+    type_annotate_public_apis: false
+    lines_longer_than_80_chars: false
+    sort_child_properties_last: true
+    sort_unnamed_constructors_first: true
+    sort_pub_dependencies: true
+    unnecessary_this: true
