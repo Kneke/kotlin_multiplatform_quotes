@@ -8,13 +8,16 @@ import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 import kotlin.random.Random
+import de.kneke.common.viewmodel.quote.QuoteViewModel
+import de.kneke.common.viewmodel.quote.QuoteModel
+import de.kneke.common.injectClient
 
 class MainActivity : FlutterActivity() {
 
     private val CHANNEL = "de.kneke.common/quote"
     private val STREAM = "de.kneke.common/quotestream"
 
-    //private val viewModel: QuoteViewModel = injectClient.quoteViewModel()
+    private val viewModel: QuoteViewModel = injectClient.quoteViewModel()
 
     private var quoteEventSink: EventChannel.EventSink? = null
 
@@ -24,11 +27,8 @@ class MainActivity : FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
             when (call.method) {
                 "getQuoteViewModel" -> {
-                    Log.e("METHOD CHANNEL", "call getQuoteViewModel")
                     val freshData = call.arguments as Boolean
-                    Log.e("METHOD CHANNEL", "fresh data $freshData")
-                    //viewModel.get(freshData)
-                    sendNewQuote()
+                    viewModel.get(freshData)
                 }
                 else -> result.notImplemented()
             }
@@ -39,12 +39,9 @@ class MainActivity : FlutterActivity() {
 
                     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
                         quoteEventSink = events
-                        /*
                         viewModel.quoteModel.watch {
-                            Log.e("METHOD CHANNEL", it!!.toJsonString())
                             events?.success(it!!.toJsonString())
                         }
-                         */
                     }
 
                     override fun onCancel(arguments: Any?) {
@@ -53,10 +50,4 @@ class MainActivity : FlutterActivity() {
                 }
         )
     }
-
-    private fun sendNewQuote() {
-        val randomNum = Random.nextInt(0, 1000)
-        quoteEventSink?.success("""{"loading": false, "quote": {"id": 1, "quote": "Hello this is test message: $randomNum", "author": "Chris", "permalink": ""}, "error": "No ERROR"}""")
-    }
-
 }

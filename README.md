@@ -14,6 +14,13 @@ The project consist of a:
 - web module
 - backend module
 
+## Initial setup
+
+- run `./gradle :common:build`
+- run `cd web && npm run updateCommon && npm run buildAndCopy`
+- run `cd ios && carthage update`
+- run `cd flutterapp && flutter package get`
+
 ## Common
 
 Include the all code that can be shared between the modules.
@@ -36,7 +43,7 @@ Include a simple activity that shows quotes from a presenter which is present in
  ./gradlew :android:build
 ```
 
-To run android app just run the android directoy as android app
+To run android app just run the android directory as android app
 
 ## iOS
 
@@ -46,6 +53,16 @@ To build the iOS app just start xcode and open the .xcodeproj from the ios direc
 
 If common module changes since last start it will be rebuild on app start.
 Just run the app on an emulator as any other ios app. 
+
+
+## Flutter
+
+Include a flutter app which can be compiled to an android, iOS and web app. 
+Use flutter channels to communicate with native code. The native code parts of the flutter module then calls the common library
+
+To build flutter app just load all necessary flutter dependencies with `flutter package get`
+To run app just plugin your device or start emulators. Call `flutter devices` to find id of your device.
+After that call `flutter run -d DEVICE_ID`
 
 ## Web
 
