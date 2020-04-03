@@ -63,6 +63,8 @@ flutter {
 }
 
 dependencies {
+    implementation project(':common')
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation "com.android.support:multidex:$android_multidex"

@@ -7,6 +7,11 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_android_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+
+        classpath "com.squareup.sqldelight:gradle-plugin:$sqldelight_version"
+
     }
 }
 
@@ -23,8 +28,4 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(':app')
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }
