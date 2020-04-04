@@ -1,4 +1,9 @@
 buildscript {
+    Properties props = new Properties()
+    props.load(new FileInputStream("../../gradle.properties"))
+    props.each { prop ->
+        project.ext.set(prop.key, prop.value)
+    }
     repositories {
         google()
         jcenter()
