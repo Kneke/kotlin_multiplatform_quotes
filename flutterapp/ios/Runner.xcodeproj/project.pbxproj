@@ -13,8 +13,11 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		E0198CF62438B72700D7A4CE /* ChannelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0198CF52438B72700D7A4CE /* ChannelConfig.swift */; };
+		E0198CFC2438B88F00D7A4CE /* BaseViewModelChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0198CFB2438B88F00D7A4CE /* BaseViewModelChannel.swift */; };
 		E0AE08912436199600F62E3B /* main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AE08902436199600F62E3B /* main.framework */; };
 		E0AE08922436199600F62E3B /* main.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E0AE08902436199600F62E3B /* main.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E0CFADAD243B092F00A40B09 /* QuoteViewModelChannelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CFADAC243B092F00A40B09 /* QuoteViewModelChannelConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,7 +48,10 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E0198CF52438B72700D7A4CE /* ChannelConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelConfig.swift; sourceTree = "<group>"; };
+		E0198CFB2438B88F00D7A4CE /* BaseViewModelChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModelChannel.swift; sourceTree = "<group>"; };
 		E0AE08902436199600F62E3B /* main.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = main.framework; path = "../../common/build/xcode-frameworks/main.framework"; sourceTree = "<group>"; };
+		E0CFADAC243B092F00A40B09 /* QuoteViewModelChannelConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteViewModelChannelConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +98,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				E0198CF72438B73A00D7A4CE /* channel */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -110,6 +117,24 @@
 			children = (
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E0198CF72438B73A00D7A4CE /* channel */ = {
+			isa = PBXGroup;
+			children = (
+				E0198CFA2438B85D00D7A4CE /* viewmodel */,
+				E0198CF52438B72700D7A4CE /* ChannelConfig.swift */,
+			);
+			path = channel;
+			sourceTree = "<group>";
+		};
+		E0198CFA2438B85D00D7A4CE /* viewmodel */ = {
+			isa = PBXGroup;
+			children = (
+				E0198CFB2438B88F00D7A4CE /* BaseViewModelChannel.swift */,
+				E0CFADAC243B092F00A40B09 /* QuoteViewModelChannelConfig.swift */,
+			);
+			path = viewmodel;
 			sourceTree = "<group>";
 		};
 		E0AE088F2436199600F62E3B /* Frameworks */ = {
@@ -227,7 +252,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+				E0198CFC2438B88F00D7A4CE /* BaseViewModelChannel.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				E0198CF62438B72700D7A4CE /* ChannelConfig.swift in Sources */,
+				E0CFADAD243B092F00A40B09 /* QuoteViewModelChannelConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

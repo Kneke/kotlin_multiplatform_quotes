@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../channel/common_channel.dart';
+import '../../channel/viewmodel/viewmodel_channel.dart';
+import '../../channel/viewmodel/viewmodel_configs.dart';
 import '../../model/quote/quote_model.dart';
 import 'widget/next_button_widget.dart';
 import 'widget/quote_widget.dart';
@@ -22,38 +23,35 @@ class QuotePageContent extends StatefulWidget {
 }
 
 class _QuotePageContentState extends State<QuotePageContent> {
-  final commonChannel = CommonChannel();
+  final viewModelChannel = ViewModelChannel(QuoteViewModelChannelConfig());
 
   QuoteModel _currentQuoteModel;
-  bool _showLoading = true;
 
   @override
   void initState() {
     super.initState();
-    commonChannel.watchQuoteViewModel(_updateQuoteViewModel);
+    viewModelChannel.watch(_updateQuoteViewModel);
     _loadNextQuote(false);
   }
 
-  void _loadNextQuote(bool fromNetwork) async {
+  void _updateQuoteViewModel(jsonResponse) {
     setState(() {
-      _currentQuoteModel = null;
-      _showLoading = true;
+      _currentQuoteModel = QuoteModel.fromJsonString(jsonResponse);
     });
-    commonChannel.getQuoteViewModel(true);
   }
 
-  void _updateQuoteViewModel(quoteViewModel) {
-    setState(() {
-      print('Update View');
-      print(quoteViewModel);
-      _currentQuoteModel = QuoteModel.fromJsonString(quoteViewModel);
-      print(_currentQuoteModel.quote.quote);
-      _showLoading = false;
-    });
+  void _loadNextQuote(bool fromNetwork) async {
+    viewModelChannel.update(fromNetwork);
+  }
+
+  @override
+  void dispose() {
+    viewModelChannel.clear();
+    super.dispose();
   }
 
   getBody() {
-    if (_showLoading) {
+    if (_currentQuoteModel == null || _currentQuoteModel.loading) {
       return CircularProgressIndicator();
     } else {
       return Column(

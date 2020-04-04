@@ -17,7 +17,7 @@ The project consist of a:
 ## Initial setup
 
 - run `./gradle :common:build`
-- run `cd web && npm run updateCommon && npm run buildAndCopy`
+- run `cd web && yarn install && npm run updateCommon && npm run buildAndCopy`
 - run `cd ios && carthage update`
 - run `cd flutterapp && flutter package get`
 
@@ -64,6 +64,9 @@ To build flutter app just load all necessary flutter dependencies with `flutter 
 To run app just plugin your device or start emulators. Call `flutter devices` to find id of your device.
 After that call `flutter run -d DEVICE_ID`
 
+NEVER OPEN PROJECT WITH ANDROID STUDIO! `This will result in error kotlinmultiapp/flutterapp/android/.idea/sqldelight/../../common/.sqldelight (No such file or directory)`
+To solve this you need to clone a clean version of the repo again. 
+
 ## Web
 
 Includes a web app based on React. Common module will be included as npm package.
@@ -97,5 +100,8 @@ To show content without the need of a local webservice currently the api endpoin
 
 ### TO-DO
 
+- Refactor repo interface structure
+- Add descriptions and icons for release
+- Check gradle builds with Jokes app
 - Clean architecture use cases
 - Write some unit tests
