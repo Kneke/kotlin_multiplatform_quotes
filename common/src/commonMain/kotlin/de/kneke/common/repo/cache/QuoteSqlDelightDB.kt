@@ -19,9 +19,9 @@ class QuoteSqlDelightDB(private val quoteQueries: QuoteQueries) : Cache<Quote> {
        list.forEach { save(it) }
     }
 
-    override fun load(index: Int): Quote? {
+    override fun load(filter: ((List<Quote>) -> Quote?)?): Quote? {
         return try {
-            if (index >= 0) quoteQueries.selectById(id = index.toLong()).executeAsOne().cast()
+            if (filter != null) filter(quoteQueries.selectAll().executeAsList().map { it.cast() })
             else quoteQueries.selectRandom().executeAsOne().cast()
         } catch (e: Exception) {
             log(e,"Can not load Record from DB")
@@ -29,8 +29,9 @@ class QuoteSqlDelightDB(private val quoteQueries: QuoteQueries) : Cache<Quote> {
         }
     }
 
-    override fun loadAll(): List<Quote>? {
+    override fun loadAll(filter: ((List<Quote>) -> List<Quote>?)?): List<Quote>? {
         return try {
+            if (filter != null) filter(quoteQueries.selectAll().executeAsList().map { it.cast() })
             quoteQueries.selectAll().executeAsList().map { it.cast() }
         } catch (e: Exception) {
             log(e,"Can not load Record from DB")

@@ -7,11 +7,13 @@ import de.kneke.common.data.quote.Quote
 import de.kneke.common.data.Resource
 import de.kneke.common.repo.quote.QuoteRepo
 import de.kneke.common.repo.Repo
+import de.kneke.common.repo.ResourceRepo
 import de.kneke.common.repo.cache.Cache
 import de.kneke.common.repo.cache.InMemoryCache
 import de.kneke.common.setting.ApplicationSettings
 import de.kneke.common.setting.Settings
 import de.kneke.common.viewmodel.ViewModel
+import de.kneke.common.viewmodel.quote.QuoteModel
 import de.kneke.common.viewmodel.quote.QuoteViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.erased.*
@@ -26,10 +28,10 @@ class JsModule : ClientModule() {
         /* QUOTE */
         bind<Cache<Quote>>("MEMORY") with singleton { InMemoryCache<Quote>() }
         bind<Api<Quote>>() with provider { QuoteApi(instance(), instance("server_url")) }
-        bind<Repo<Resource<Quote>>>() with singleton {
+        bind<ResourceRepo<Quote>>() with singleton {
             QuoteRepo(instance("MEMORY"), null, instance())
         }
-        bind<ViewModel<Resource<Quote>>>() with singleton { QuoteViewModel(instance()) }
+        bind<ViewModel<QuoteModel>>() with singleton { QuoteViewModel(instance()) }
     }
 }
 

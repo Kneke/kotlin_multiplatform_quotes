@@ -2,7 +2,7 @@ package de.kneke.common.viewmodel.quote
 
 import de.kneke.common.data.quote.Quote
 import de.kneke.common.data.Resource
-import de.kneke.common.repo.Repo
+import de.kneke.common.repo.ResourceRepo
 import de.kneke.common.util.dispatcher.Dispatcher
 import de.kneke.common.viewmodel.ViewModel
 import de.kneke.common.viewmodel.ViewModelObservable
@@ -19,7 +19,7 @@ data class QuoteModel(val loading: Boolean, val quote: Quote? = null, val error:
     }
 }
 
-class QuoteViewModel(private val quoteRepo: Repo<Resource<Quote>>) : ViewModel<Resource<Quote>> {
+class QuoteViewModel(private val quoteRepo: ResourceRepo<Quote>) : ViewModel<QuoteModel> {
 
     private var quoteJob: Job? = null
 
@@ -31,7 +31,7 @@ class QuoteViewModel(private val quoteRepo: Repo<Resource<Quote>>) : ViewModel<R
             quoteModel.value = QuoteModel(true, Quote(0, "", "", ""))
 
             val quoteResource = withContext(Dispatcher.io) {
-                quoteRepo.get(freshData)
+                quoteRepo.get(Pair(freshData, null))
             }
 
             when (quoteResource) {

@@ -1,7 +1,7 @@
 package de.kneke.common.repo
 
-interface Repo<T> {
+interface Repo<I, T> {
 
-    suspend fun get(fromNetwork: Boolean = false, index: Int = -1): T
+    suspend fun get(parameters: I): T
 
 }

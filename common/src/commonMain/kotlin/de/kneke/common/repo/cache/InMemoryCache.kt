@@ -12,13 +12,14 @@ class InMemoryCache<T>: Cache<T> {
         cacheList = list.toMutableList()
     }
 
-    override fun load(index: Int): T? {
-        if (cacheList.isEmpty() || cacheList.lastIndex < index) return null
-        if (index >= 0) return cacheList[index]
+    override fun load(filter: ((List<T>) -> T?)?): T? {
+        if (cacheList.isEmpty()) return null
+        if (filter != null) return filter(cacheList)
         return cacheList[cacheList.lastIndex]
     }
 
-    override fun loadAll(): List<T>? {
+    override fun loadAll(filter: ((List<T>) -> List<T>?)?): List<T>? {
+        if (filter != null) return filter(cacheList)
         return cacheList
     }
 

@@ -13,22 +13,23 @@ abstract class ResourceRepo<T>(
     private val memoryCache: Cache<T>?,
     private val database: Cache<T>?,
     private val api: Api<T>?
-) : Repo<Resource<T>> {
+) : Repo<Pair<Boolean, ((List<T>) -> T?)?>, Resource<T>> {
 
     val mutex = Mutex()
 
-    override suspend fun get(fromNetwork: Boolean, index: Int): Resource<T> {
+    override suspend fun get(parameters: Pair<Boolean, ((List<T>) -> T?)?>): Resource<T> {
+        val (fromNetwork, filter) = parameters
         // Directly request new data from server
         if (fromNetwork) return loadFromApi()
 
         // Get data from cache
-        memoryCache?.load(index)?.let {
+        memoryCache?.load(filter)?.let {
             log("Get Data from Cache")
             return Resource.Success(it)
         }
 
         // Get data from DB
-        database?.load(index)?.let {
+        database?.load(filter)?.let {
             log("Get Data from DB")
             saveInMemoryCache(it)
             return Resource.Success(it)
