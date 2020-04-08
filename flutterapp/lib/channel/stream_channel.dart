@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
-import '../channel_config.dart';
+import 'channel_config.dart';
 
-class ViewModelChannel {
+class StreamChannel {
   final ChannelConfig _channelConfig;
   var _methodChannel;
   var _eventChannel;
 
   StreamSubscription streamSubscription;
 
-  ViewModelChannel(this._channelConfig) {
+  StreamChannel(this._channelConfig) {
     _methodChannel = MethodChannel(_channelConfig.getMethodChannelName());
     _eventChannel = EventChannel(_channelConfig.getEventChannelName());
   }

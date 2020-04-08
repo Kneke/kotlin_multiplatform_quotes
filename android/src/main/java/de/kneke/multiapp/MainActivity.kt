@@ -1,25 +1,30 @@
 package de.kneke.multiapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.android.gms.ads.AdRequest
-import de.kneke.common.viewmodel.quote.QuoteViewModel
 import de.kneke.common.viewmodel.quote.QuoteModel
 import kotlinx.android.synthetic.main.activity_main.*
 import de.kneke.common.injectClient
+import de.kneke.multiapp.legal.LegalActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: QuoteViewModel = injectClient.quoteViewModel()
+    private val viewModel = injectClient.quoteViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         adBannerBottom.loadAd(AdRequest.Builder().build())
+
+        legalNavigationButton.setOnClickListener {
+            startActivity(Intent(this, LegalActivity::class.java))
+        }
 
         viewModel.quoteModel.watch { updateView(it!!) }
         nextButton.setOnClickListener { loadQuote(true) }

@@ -16,7 +16,7 @@ class QuoteViewModelChannelConfig: ChannelConfig {
     }
 }
 
-class QuoteViewModelChannel : BaseViewModelChannel {
+class QuoteViewModelChannel : BaseStreamChannel {
     
     private let viewModel: QuoteViewModel = ClientModuleKt.injectClient.quoteViewModel()
     

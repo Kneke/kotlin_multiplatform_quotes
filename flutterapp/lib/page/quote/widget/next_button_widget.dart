@@ -9,9 +9,9 @@ class NextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
+      textColor: Colors.blueAccent,
       onPressed: () => nextCallback(true),
-      child: Text('Next'),
+      child: Text('NEXT', style: TextStyle(fontSize: 16.0)),
     );
   }
-
 }

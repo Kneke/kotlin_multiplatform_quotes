@@ -11,6 +11,7 @@ import Flutter
         
         let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
         QuoteViewModelChannel(flutterController: controller).regiterChannels()
+        LegalResourceChannel(flutterController: controller).regiterChannels()
         
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }

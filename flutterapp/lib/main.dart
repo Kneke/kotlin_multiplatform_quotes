@@ -6,6 +6,13 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return QuotePage();
+    return MaterialApp(
+        title: 'Multi Quotes',
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: Colors.black,
+          accentColor: Colors.white,
+        ),
+        home: QuotePage());
   }
 }

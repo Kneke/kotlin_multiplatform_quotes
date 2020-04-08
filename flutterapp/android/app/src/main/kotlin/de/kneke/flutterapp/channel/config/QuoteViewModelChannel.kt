@@ -1,14 +1,14 @@
-package de.kneke.flutterapp.channel.viewmodel
+package de.kneke.flutterapp.channel.config
 
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 import de.kneke.flutterapp.channel.ChannelConfig
-import de.kneke.flutterapp.channel.viewmodel.BaseViewModelChannel
+import de.kneke.flutterapp.channel.BaseStreamChannel
 import de.kneke.common.viewmodel.quote.QuoteViewModel
 import de.kneke.common.viewmodel.quote.QuoteModel
 import de.kneke.common.injectClient
 
-class QuoteViewModelChannelConfig: ChannelConfig {
+class QuoteViewModelChannelConfig : ChannelConfig {
     override fun getMethodChannelName(): String = "de.kneke.common/quote"
 
     override fun getEventChannelName(): String = "de.kneke.common/quotestream"
@@ -16,7 +16,8 @@ class QuoteViewModelChannelConfig: ChannelConfig {
     override fun getChannelMethods(): List<String> = listOf("getQuoteViewModel")
 }
 
-class QuoteViewModelChannel(flutterEngine: FlutterEngine) : BaseViewModelChannel(QuoteViewModelChannelConfig(), flutterEngine) {
+class QuoteViewModelChannel(flutterEngine: FlutterEngine) :
+    BaseStreamChannel(QuoteViewModelChannelConfig(), flutterEngine) {
 
     private val viewModel: QuoteViewModel = injectClient.quoteViewModel()
 
@@ -30,5 +31,4 @@ class QuoteViewModelChannel(flutterEngine: FlutterEngine) : BaseViewModelChannel
             eventSink?.success(it!!.toJsonString())
         }
     }
-
 }

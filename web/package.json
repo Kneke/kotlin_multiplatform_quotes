@@ -22,8 +22,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "buildAndCopy": "rm -rf ../backend/src/main/resources/client/* && react-scripts build && mkdir -p ../backend/src/main/resources/client && cp -r build/* ../backend/src/main/resources/client && rm -rf build",
-    "updateCommon": "cd .. && ./gradlew common:jsJar && cd web && yarn remove kotlinmultiapp && yarn add ../build/js && react-scripts start",
+    "buildAndCopy": "npm run updateCommon && rm -rf ../backend/src/main/resources/client/* && react-scripts build && mkdir -p ../backend/src/main/resources/client && cp -r build/* ../backend/src/main/resources/client && rm -rf build",
+    "updateCommon": "cd .. && ./gradlew common:jsJar && cd web && yarn remove kotlinmultiapp && yarn add ../build/js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

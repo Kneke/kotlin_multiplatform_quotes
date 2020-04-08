@@ -4,11 +4,12 @@ import de.kneke.common.api.Api
 import de.kneke.common.api.http.HttpClient
 import de.kneke.common.api.quote.QuoteApi
 import de.kneke.common.data.quote.Quote
+import de.kneke.common.legal.LicenceProvider
 import de.kneke.common.repo.quote.QuoteRepo
 import de.kneke.common.repo.ResourceRepo
 import de.kneke.common.repo.cache.Cache
 import de.kneke.common.repo.cache.InMemoryCache
-import de.kneke.common.repo.cache.QuoteSqlDelightDB
+import de.kneke.common.repo.quote.QuoteDatabaseSqlDelight
 import de.kneke.common.setting.ApplicationSettings
 import de.kneke.common.setting.Settings
 import de.kneke.common.util.db.DatabaseHelper
@@ -25,10 +26,11 @@ open class ClientModule {
 
         bind<HttpClient>() with provider { HttpClient() }
         bind<Settings>() with singleton { ApplicationSettings() }
+        bind<LicenceProvider>() with singleton { LicenceProvider() }
         /* QUOTE */
         bind<Cache<Quote>>("MEMORY") with singleton { InMemoryCache<Quote>() }
         bind<Cache<Quote>>("DB") with singleton {
-            QuoteSqlDelightDB(DatabaseHelper("test.db").database.quoteQueries)
+            QuoteDatabaseSqlDelight(DatabaseHelper("test.db").database.quoteQueries)
         }
         bind<Api<Quote>>() with provider { QuoteApi(instance(), instance("server_url")) }
         bind<ResourceRepo<Quote>>() with singleton {
@@ -45,6 +47,11 @@ open class ClientModule {
     open fun appSettings(): Settings {
         val appSettings: Settings by kodeinDI.instance()
         return appSettings
+    }
+
+    open fun licenceProvider(): LicenceProvider {
+        val licenceProvider: LicenceProvider by kodeinDI.instance()
+        return licenceProvider
     }
 }
 

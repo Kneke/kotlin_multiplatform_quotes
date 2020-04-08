@@ -70,6 +70,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
     </com.google.android.gms.ads.AdView>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:srcCompat="@android:drawable/ic_menu_info_details"
+            android:id="@+id/legalNavigationButton" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

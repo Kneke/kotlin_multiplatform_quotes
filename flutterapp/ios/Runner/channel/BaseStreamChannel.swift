@@ -2,7 +2,7 @@
 import Foundation
 import Flutter
 
-class BaseViewModelChannel: NSObject, FlutterStreamHandler {
+class BaseStreamChannel: NSObject, FlutterStreamHandler {
     
     let channelConfig: ChannelConfig
     let flutterController: FlutterViewController
@@ -18,10 +18,10 @@ class BaseViewModelChannel: NSObject, FlutterStreamHandler {
         // Note: this methods are invoked on the UI thread.
         let methodChannel = FlutterMethodChannel(name: channelConfig.getMethodChannelName(), binaryMessenger: flutterController.binaryMessenger)
         methodChannel.setMethodCallHandler({
-            [weak self] (call: FlutterMethodCall, result: FlutterResult) -> Void in
+            [self] (call: FlutterMethodCall, result: FlutterResult) -> Void in
             switch call.method {
-            case self?.channelConfig.getChannelMethods()[0]:
-                self?.update(arguments: call.arguments)
+            case self.channelConfig.getChannelMethods()[0]:
+                self.update(arguments: call.arguments)
             default:
                 result(FlutterMethodNotImplemented)
             }
@@ -43,10 +43,10 @@ class BaseViewModelChannel: NSObject, FlutterStreamHandler {
     }
     
     func update(arguments: Any?) {
-        fatalError("Must implement Override")
+        fatalError("Must be implemented in Subclass")
     }
     
     func watch(eventSink: FlutterEventSink?) {
-        fatalError("Must implement Override")
+        fatalError("Must be implemented in Subclass")
     }
 }

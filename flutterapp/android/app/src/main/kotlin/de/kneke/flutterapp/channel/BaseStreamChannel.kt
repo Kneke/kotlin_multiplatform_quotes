@@ -1,11 +1,11 @@
-package de.kneke.flutterapp.channel.viewmodel
+package de.kneke.flutterapp.channel
 
 import de.kneke.flutterapp.channel.ChannelConfig
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.EventChannel
 
-abstract class BaseViewModelChannel(channelConfig: ChannelConfig, flutterEngine: FlutterEngine) {
+abstract class BaseStreamChannel(channelConfig: ChannelConfig, flutterEngine: FlutterEngine) {
 
     private var eventSink: EventChannel.EventSink? = null
 
@@ -18,7 +18,7 @@ abstract class BaseViewModelChannel(channelConfig: ChannelConfig, flutterEngine:
                 }
             }
 
-        EventChannel(flutterEngine.getDartExecutor(), channelConfig.getEventChannelName()).setStreamHandler(
+        EventChannel(flutterEngine.getDartExecutor(), channelConfig.getEventChannelName()!!).setStreamHandler(
             object : EventChannel.StreamHandler {
                 override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
                     eventSink = events
@@ -31,7 +31,6 @@ abstract class BaseViewModelChannel(channelConfig: ChannelConfig, flutterEngine:
             }
         )
     }
-
 
     abstract fun update(arguments: Any?)
 

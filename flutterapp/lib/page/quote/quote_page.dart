@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../channel/viewmodel/viewmodel_channel.dart';
-import '../../channel/viewmodel/viewmodel_configs.dart';
+import '../../channel/config/quote_viewmodel_config.dart';
+import '../../channel/stream_channel.dart';
 import '../../model/quote/quote_model.dart';
+import '../legal/legal_page.dart';
 import 'widget/next_button_widget.dart';
 import 'widget/quote_widget.dart';
 
 class QuotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter MultiApp',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Scaffold(body: QuotePageContent()));
+    return Scaffold(
+        body: QuotePageContent()
+    );
   }
 }
 
@@ -23,7 +21,7 @@ class QuotePageContent extends StatefulWidget {
 }
 
 class _QuotePageContentState extends State<QuotePageContent> {
-  final viewModelChannel = ViewModelChannel(QuoteViewModelChannelConfig());
+  final viewModelChannel = StreamChannel(QuoteViewModelChannelConfig());
 
   QuoteModel _currentQuoteModel;
 
@@ -52,23 +50,43 @@ class _QuotePageContentState extends State<QuotePageContent> {
 
   getBody() {
     if (_currentQuoteModel == null || _currentQuoteModel.loading) {
-      return CircularProgressIndicator();
+      return Expanded(child: Center(child: CircularProgressIndicator()));
     } else {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          QuoteWidget(_currentQuoteModel.quote),
-          NextButton(_loadNextQuote),
-        ],
+      return Expanded(
+        child: Stack(
+          children: <Widget>[
+            Align(alignment: FractionalOffset.center, child: QuoteWidget(_currentQuoteModel.quote)),
+            Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Container(margin: EdgeInsets.all(50), child: NextButton(_loadNextQuote))),
+          ],
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: getBody(),
-    );
+    return Container(
+        child: Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.info_outline),
+                iconSize: 30,
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LegalPage()));
+                },
+              )
+            ],
+          ),
+        ),
+        getBody()
+      ],
+    ));
   }
 }

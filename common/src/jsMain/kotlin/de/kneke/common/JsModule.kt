@@ -4,9 +4,8 @@ import de.kneke.common.api.Api
 import de.kneke.common.api.http.HttpClient
 import de.kneke.common.api.quote.QuoteApi
 import de.kneke.common.data.quote.Quote
-import de.kneke.common.data.Resource
+import de.kneke.common.legal.LicenceProvider
 import de.kneke.common.repo.quote.QuoteRepo
-import de.kneke.common.repo.Repo
 import de.kneke.common.repo.ResourceRepo
 import de.kneke.common.repo.cache.Cache
 import de.kneke.common.repo.cache.InMemoryCache
@@ -25,6 +24,7 @@ class JsModule : ClientModule() {
 
         bind<HttpClient>() with provider { HttpClient() }
         bind<Settings>() with singleton { ApplicationSettings() }
+        bind<LicenceProvider>() with singleton { LicenceProvider() }
         /* QUOTE */
         bind<Cache<Quote>>("MEMORY") with singleton { InMemoryCache<Quote>() }
         bind<Api<Quote>>() with provider { QuoteApi(instance(), instance("server_url")) }
